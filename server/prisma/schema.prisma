@@ -19,7 +19,12 @@ model User {
   name      String 
   email     String  @unique
   password  String
-  role      String  //can be recruiter or job-seeker
+  role      Role      @default(RECRUITER)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+enum Role {
+  RECRUITER
+  JOB_SEEKER
 }
