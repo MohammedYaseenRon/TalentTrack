@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from  "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import axios from "axios";
+
  
 
 
@@ -30,6 +32,7 @@ export default function Signup() {
 
     const [errors,setErrors] = useState<string[]>([]);
     const [loading,setLoading] = useState(false);
+    const router = useRouter();
 
     const handleChange = (name: string, value: string) => {
         setFormData({ ...formData, [name]: value });
@@ -59,15 +62,24 @@ export default function Signup() {
     
     }
 
-    const handleSubmit = (e:React.FormEvent) => {
+    const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        if (validateForm()) {
+        if (!validateForm()) return;
             // Perform signup logic (e.g., API request)
-            console.log('Form submitted successfully with data:', formData);
-            setFormData({ name: '', email: '', password: '', role: 'JOBSEEKER' });
-            setErrors([]);errors
+
+        try{
+            const response = await axios.post("http://localhost:3001/auth/signup", formData);
+            console.log("Signup successful:", response.data);
+            setFormData({ name: '', email: '', password: '', role: 'JOBSEEKER' }); 
+            router.push('/auth/login');  
+        }catch(error:any) {
+            console.error("Error during signup",error);
+            setErrors([error.response?.data?.message || "Something went wrong!"]);
+        }finally{
+            setLoading(false);
         }
+        
         
 
     }

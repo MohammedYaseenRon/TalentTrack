@@ -11,6 +11,11 @@ export const signup = async(req:Request, res:Response): Promise<void> => {
     try {
         const {name, email, password, role}:SignupInput = req.body;
 
+        if (role !== "JOB_SEEKER" && role !== "RECRUITER") {
+            res.status(400).json({ error: "Invalid role" });
+            return;
+        }
+
         const existingUser = await prisma.user.findUnique({
             where:{
                 email
@@ -55,14 +60,16 @@ export const login = async (req:Request, res:Response): Promise<void> => {
 
         const user = await prisma.user.findUnique({where: {email}});
         if(!user){
+            console.log('No user found with email:', email);
             res.status(400).json({error: "Invalid credentials"});
-            return
+            return;
         }
 
         const validatePassword = await bcrypt.compare(password, user.password);
+        console.log('Password validation result:', validatePassword);
         if(!validatePassword){
             res.status(401).json({error: "Invalid credentials"});
-            return
+            return;
         }
 
         const token = jwt.sign(
