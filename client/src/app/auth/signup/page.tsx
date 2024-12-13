@@ -69,7 +69,7 @@ export default function Signup() {
             // Perform signup logic (e.g., API request)
 
         try{
-            const response = await axios.post("http://localhost:3001/auth/signup", formData);
+            const response = await axios.post("http://localhost:4000/auth/signup", formData);
             console.log("Signup successful:", response.data);
             setFormData({ name: '', email: '', password: '', role: 'JOBSEEKER' }); 
             router.push('/auth/login');  

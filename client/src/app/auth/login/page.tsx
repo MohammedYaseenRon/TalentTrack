@@ -3,7 +3,7 @@
     import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
     import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
     import { AlertCircle, Axis3DIcon } from 'lucide-react';
-    import React, { useEffect, useState } from 'react'
+    import React, { useState } from 'react'
     import { Label } from '@/components/ui/label'
     import { Input } from '@/components/ui/input'
     import { Button } from '@/components/ui/button'
@@ -51,25 +51,25 @@
             }
             setLoading(true);
 
-            try{  
-                const response = await axios.post("http://localhost:3000/auth/login",formData ,{
-                    headers: { "Content-Type": "application/json" },
-                })
-                const {token,user} = response.data;
+                try{  
+                    const response = await axios.post("http://localhost:4000/auth/login",formData ,{
+                        headers: { "Content-Type": "application/json" },
+                    })
+                    const {token,user} = response.data;
 
-                console.log('Login response:', response.data);
-                localStorage.setItem('token',token);
-                console.log('Logged in succesfully:', response.data)
-                console.log("Response Data:", response.data);
+                    console.log('Login response:', response.data);
+                    localStorage.setItem('token',token);
+                    console.log('Logged in succesfully:', response.data)
+                    console.log("Response Data:", response.data);
 
-                router.push("/job-seeker")
-            }catch(error:any) {
-                console.error('Login error', error);
-                setErrors(error.response?.data?.message || "Something went wrong!");
-                
-            }finally{
-                setLoading(false)
-            }
+                    router.push("/jobSeeker");
+                }catch(error:any) {
+                    console.error('Login error', error);
+                    setErrors(error.response?.data?.message || "Something went wrong!");
+                    
+                }finally{
+                    setLoading(false)
+                }
 
 
         };  
