@@ -1,28 +1,31 @@
 import React from 'react'
 import Logo from './Logo'
 import { Bell, HomeIcon, User } from 'lucide-react'
+import { Button } from './ui/button'
 
 
 
 const Header = () => {
   return (
-    <div className='bg-white shadow-lg'>
-        <div className='p-2 h-20 rounded-2xl bg-gray-400 flex justify-between items-center'>
-            <div>
+    <div className='sticky bg-white/50 top-0 z-50 w-full border-b shadow-lg backdrop-blur-xl'>
+        <div className='px-6 h-16 flex items-center'>
+            <div className='flex items-center gap-8'>
               <Logo />
             </div>
-            <div className='flex items-center gap-2'>
-              <HomeIcon className='w-5 h-5 text' />
-              <h1 className='font-medium text-base md:text-lg text-black'>
-                My Activities
-              </h1>
-            </div>
-            <div className='flex items-center gap-6 sm:gap-6'>
-              <div className='w-5 h-5 sm:w-6 sm:h-6 cursor-pointer transition-colors'>
-                <Bell />
+            <div className='flex items-center gap-4 ml-auto'>
+              <div className='flex items-center gap-2'>
+                <HomeIcon className='w-5 h-5 text' />
+                <span className='font-medium text-base md:text-lg text-black'>
+                  My Activities
+                </span>
               </div>
-              <div className='w-5 h-5 sm:w-6 sm:h-6 cursor-pointer transition-colors'>
-                <User />
+              <div className='flex items-center gap-4 sm:gap-6'>
+                <button className="rounded-full h-8 w-8 flex items-center justify-center hover:bg-accent">
+                  <Bell className="h-5 w-5 text-muted-foreground" />
+                </button>
+                <button className="rounded-full h-8 w-8 flex items-center justify-center hover:bg-accent">
+                  <User className="h-5 w-5 text-muted-foreground" />
+                </button>
               </div>
             </div>
         </div>
