@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { File as FileIcon } from 'lucide-react';
+import { File as FileIcon, X } from 'lucide-react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 
@@ -84,27 +84,16 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
     };
 
     return (
-        <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">
-                Upload Project Images
-            </Label>
-            <div className="flex items-center gap-2">
+        <div>
+            <div>
                 <Input 
                     type="file" 
                     ref={fileInputRef}
                     accept="image/*"
                     multiple={multiple}
                     onChange={handleFileChange}
-                    className="hidden"
+                    className="flex items-center gap-2 text-white px-4 py-2 rounded w-[400px] h-[50px]"
                 />
-                <button 
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                    <FileIcon className="w-5 h-5" />
-                    Select Images
-                </button>
             </div>
 
             {/* Image Previews */}
@@ -122,7 +111,7 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
                                 onClick={() => removeImage(index)}
                                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                             >
-                                ×
+                                <X />
                             </button>
                         </div>
                     ))}

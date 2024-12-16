@@ -1,32 +1,34 @@
 import { X } from 'lucide-react';
 import React from 'react'
+import { ScrollArea } from './ui/scroll-area';
 
 interface ModalProps {
-    children:React.ReactNode;
+    children: React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
-    name:string;
-
+    name: string;
 }
 
-const Modal = ({children,name,isOpen,onClose}:ModalProps) => {
+const Modal = ({children, name, isOpen, onClose}: ModalProps) => {
     if(!isOpen) return null;
-  return (
-    <div className='fixed inset-0 z-50 flex flex justify-center items-center overflow-y-auto bg-gray-300 bg-opacity-50 p-4'>
-        <div className='w-full max:w-2xl rounded-lg bg-white p-4 shadow-lg dark:bg-dark-secondary'>
-            <div className='flex items-center justify-center border-b pb-2 mb-4'>
-                {name && <h2 className='text-black font-medium text-xl'>{name}</h2>}
-                <button onClick={onClose} className='flex h-7 w-7 items-center justify-center rounded-full bg-blue-primary text-white hover:bg-blue-600'>
-                    <X size={18} /> 
-                </button>
-            </div>
-            <div>
-                {children}
+    return (
+        <div className='fixed inset-0 z-50 flex justify-center items-center overflow-hidden bg-gray-300 bg-opacity-50 p-4'>
+            <div className='w-full max-w-3xl h-[90vh] rounded-lg bg-white shadow-lg dark:bg-dark-secondary flex flex-col'>
+                <div className='flex items-center justify-between border-b p-4'>
+                    {name && <h2 className='text-black dark:text-white font-medium text-xl'>{name}</h2>}
+                    <button onClick={onClose} className='h-8 w-8 rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-800 transition-colors duration-200 flex items-center justify-center'>
+                        <X size={18} />
+                    </button>
+                </div>  
+                <div className="flex-1 overflow-y-auto">
+                    <ScrollArea className="h-full">
+                        {children}
+                    </ScrollArea>
+                </div>
             </div>
         </div>
-
-    </div>
-  )
+    )
 }
 
 export default Modal
+

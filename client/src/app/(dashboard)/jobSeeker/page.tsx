@@ -46,7 +46,7 @@ export default function JobSeeker() {
     setIsModalOpen(false);
   }
   return (
-    <div className='w-full min-h-screen p-4'>
+    <div className='w-full p-4'>
       <div className='flex flex-row-reverse mb-4'>
         <Button onClick={handleOpenModal} className='text-white hover:bg-blue-800 text-lg bg-blue-600 px-8 py-2'>Add Project</Button>
       </div>
