@@ -2,7 +2,9 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors'
 
-import authRoute from "./routes/authRoute"
+import authRoute from "./routes/authRoute";
+import projectRoute from "./routes/projectRoutes"
+
 
 dotenv.config();
 
@@ -19,6 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.use("/auth", authRoute)
+app.use("/project", projectRoute)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
