@@ -56,7 +56,8 @@ const mockProjects = [
 ]
 
 export default function Projects() {
-  
+
+
 
   return (  
     <div className='p-2 mx-auto'>

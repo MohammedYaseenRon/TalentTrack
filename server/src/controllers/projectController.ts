@@ -9,17 +9,22 @@ export const createProject = async (
 ): Promise<void> => {
     const { name,description,techStack,livedemo,sourcecode,tags,images} = req.body;
 
-    const { userId } = req.user;    
+    const { userId } = req.user;  
+    const normalizedTags = Array.isArray(tags) ? tags : [tags];
+    const normalizedTechStack = Array.isArray(techStack) ? techStack : (typeof techStack === 'string' ? techStack.split(',').map((item: string) => item.trim()) : []);
 
+   
     try{
         const newProject = await prisma.project.create({
             data:{
                 name,
                 description,
-                techStack,
+                techStack:normalizedTechStack,
                 livedemo,
                 sourcecode,
-                tags,
+                tags: {
+                    create: normalizedTags.map((tag: string) => ({ name: tag }))
+                  },
                 images,
                 createdAt: new Date(),
                 updatedAt: new Date(),

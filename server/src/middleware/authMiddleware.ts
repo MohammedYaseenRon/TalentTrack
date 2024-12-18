@@ -19,6 +19,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as UserJwtPayload;
     req.user = { userId: decoded.userId, role: decoded.role }; 
+    next();
   } catch (error) {
     res.status(403).json({ error: "Forbidden: Invalid token" });
     return;

@@ -56,9 +56,11 @@
                         headers: { "Content-Type": "application/json" },
                     })
                     const {token,user} = response.data;
+                    console.log('Token received:', token);  // Log token
 
                     console.log('Login response:', response.data);
                     localStorage.setItem('token',token);
+                    console.log('Token after login:', localStorage.getItem('token'));  // Should log the token
                     console.log('Logged in succesfully:', response.data)
                     console.log("Response Data:", response.data);
 
