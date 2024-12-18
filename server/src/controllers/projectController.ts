@@ -4,19 +4,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createProject = async (
-    req:Request,
+    req:any,
     res:Response
 ): Promise<void> => {
     const { name,description,techStack,livedemo,sourcecode,tags,images} = req.body;
 
-    const userId = req.user?.userId ? Number(req.user.userId) : null; // Convert to number
-
-  // Check if userId is valid
-    if (!userId || isNaN(userId)) {
-        res.status(401).json({ message: "User is not authenticated or invalid userId" });
-        return
-    
-    }
+    const { userId } = req.user;    
 
     try{
         const newProject = await prisma.project.create({

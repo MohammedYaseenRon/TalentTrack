@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { signup,login } from '../controllers/authController';
-import { authenticateJWT } from '../middleware/authMiddleware';  // Import the JWT middleware
+import { authenticateToken } from '../middleware/authMiddleware';  // Import the JWT middleware
 import { roleMiddleware } from '../middleware/roleMiddleware';
 
 
