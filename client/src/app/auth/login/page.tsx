@@ -11,9 +11,6 @@
     import Link from 'next/link';
     import { useRouter } from 'next/navigation';
 
-
-
-
     interface loginProps {
         email:string,
         password:string
@@ -72,6 +69,7 @@
                 }finally{
                     setLoading(false)
                 }
+
 
 
         };  

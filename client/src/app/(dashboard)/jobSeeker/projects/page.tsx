@@ -1,4 +1,6 @@
 import ProjectsCard from '@/components/ProjectsCard';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react';
 
@@ -61,6 +63,10 @@ export default function Projects() {
 
   return (  
     <div className='p-2 mx-auto'>
+        {/* <div>
+          <Label className="text-black text-base font-medium text-start">Search</Label>
+          <Input className='rounded-full w-[260px]' placeholder="search using tags and skills.."/>
+        </div> */}
       <div className='grid grid-cols-4 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         {mockProjects.map((project,index) => (
           <ProjectsCard key={index} {...project} />

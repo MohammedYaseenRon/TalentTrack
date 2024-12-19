@@ -12,7 +12,7 @@ interface ProjectProps {
     livedemo: string;    
     sourcecode: string;    
     tags: string[];
-    images: File[]     
+    images: string[]   
 }
 
 interface ImagePickerProps {
@@ -40,7 +40,7 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
 
         // Validate number of files
         if (fileArray.length > maxFiles) {
-            alert(`You can select up to ${maxFiles} files`);
+            alert(`You can select up to ${maxFiles} files in total  `);
             return;
         }
 
@@ -56,14 +56,16 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
         // Create file previews
         const newPreviews = fileArray.map(file => URL.createObjectURL(file));
         
-        setSelectedImages(fileArray);
-        setPreviews(newPreviews);
+        setSelectedImages(prev => [...prev, ...fileArray]);
+        setPreviews(prev => [...prev, ...newPreviews]);
     
         // Call optional callback
+        
         if (onImageSelected) {
             onImageSelected(fileArray);
         }
-    };
+
+    }
 
     const removeImage = (indexToRemove: number) => {
         const newImages = selectedImages.filter((_, index) => index !== indexToRemove);

@@ -19,7 +19,7 @@ model User {
   name      String 
   email     String  @unique
   password  String
-  role      Role      @default(RECRUITER)
+  role      Role      
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   project    Project[]   //One-to-many relationship with projects
@@ -32,15 +32,25 @@ model   Project {
   name          String
   description   String
   techStack     String[]
-  livedemo      String            //optional live demo url
-  sourcecode    String            //optional source code
+  livedemo      String?           //optional live demo url
+  sourcecode    String?           //optional source code
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @default(now())
   tags          Tag[]             @relation("ProjectTags")
-  images       String[]
+  images       Image[]
   userId       Int               //foreign key to user
   user         User              @relation(fields: [userId], references: [id])
 }
+
+
+model  Image {
+  id    Int          @id @default(autoincrement())
+  url       String
+  projectId Int
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+} 
+
  
 
 model Tag{

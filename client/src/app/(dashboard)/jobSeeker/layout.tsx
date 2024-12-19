@@ -1,5 +1,6 @@
 import Header from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react'
 
 
@@ -15,7 +16,7 @@ const JobSeekerlayout:React.FC<JobSeekerLayoutProps> = ({children}) => {
         <div className='flex-1'>
           <Header />  
         <main className='container mx-auto p-6'>
-          {children}
+            {children}
         </main>
         </div>
     </div>
