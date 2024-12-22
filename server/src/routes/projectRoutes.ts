@@ -8,5 +8,4 @@ router.post('/', authenticateToken, createProject);
 router.get('/',getProjects);
 router.get('/:id',getProjectById);  
 
-
 export default router;

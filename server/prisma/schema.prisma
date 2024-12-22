@@ -35,7 +35,7 @@ model   Project {
   livedemo      String?           //optional live demo url
   sourcecode    String?           //optional source code
   createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
   tags          Tag[]             @relation("ProjectTags")
   images       Image[]
   userId       Int               //foreign key to user
@@ -45,7 +45,9 @@ model   Project {
 
 model  Image {
   id    Int          @id @default(autoincrement())
-  url       String
+  url       String?
+  type      String
+  data      Bytes    // Binary data for the image
   projectId Int
   project   Project  @relation(fields: [projectId], references: [id])
   createdAt DateTime @default(now())

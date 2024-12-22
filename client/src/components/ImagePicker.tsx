@@ -26,7 +26,7 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
     onImageSelected,
     multiple = true,
     maxFiles = 3,
-    maxSizeInMB = 5
+    maxSizeInMB = 10
 }) => {
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
