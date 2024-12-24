@@ -28,7 +28,7 @@ export const Sidebar:React.FC<SidebarProps> = ({className}) => {
     const menuItems: MenuItems[] = [
         { icon:Home, label:'Dashboard',href:"/jobSeeker " },
         { icon:Folder, label:'Projects',href: "/jobSeeker/projects" },
-        { icon:BarChart, label:'Analaytics',href:"/" },
+        { icon:BarChart, label:'Project Details',href:"/jobSeeker/projectDetails" },
         { icon:Users, label:'Team',href:"/" },
         { icon:Settings, label:'Settings',href:"/" },
         

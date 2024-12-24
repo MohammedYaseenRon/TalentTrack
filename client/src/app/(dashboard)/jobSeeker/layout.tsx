@@ -11,11 +11,11 @@ interface JobSeekerLayoutProps {
 
 const JobSeekerlayout:React.FC<JobSeekerLayoutProps> = ({children}) => {
   return (
-    <div className='flex min-h-screen'>
+    <div className='flex h-screen overflow-hiddem'>
       <Sidebar />
-        <div className='flex-1'>
+        <div className='flex-1 flex flex-col overflow-hidden'>
           <Header />  
-        <main className='container mx-auto p-6'>
+        <main className='flex-1'>
             {children}
         </main>
         </div>
