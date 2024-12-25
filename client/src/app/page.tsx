@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
+import Working from "@/components/Working";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,12 +10,15 @@ export default function Home() {
       <Navbar />
       <div className="flex justify-center items-center p-16 md:p-32">
         <div className="max-w-2xl space-y-6 text-center">
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl px-6 py-3">Be ahead of everyone</Button>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800">Get Hired with Your Work</h1>
-          <p className="text-xl md:text-2xl font-semibold text-red-600">Join Talents Tracks and turn your projects into opportunities.</p>
-          <Link href="/auth/login"><Button className="bg-black hover:bg-gray-800 text-white font-medium rounded-full mt-2  px-8 py-4">Get started</Button></Link>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800">Showcase Your Talents, Land your Dream Job</h1>
+          <p className="text-2xl md:text-3xl font-semiboldtext-gray-500 md:text-xl dark:text-gray-400">Get Hired with Your Work</p>
+          <div className="flex justify-center items-center gap-4">
+            <Link href="/auth/login"><Button className="bg-black text-sm text-black text-white px-8 py-4">Get started</Button></Link>
+            <Button variant="outline" className="px-8 py-4 text-sm">Learn More</Button>
+          </div>
         </div>
       </div>
+      <Working />
     </div>
   );
 }
