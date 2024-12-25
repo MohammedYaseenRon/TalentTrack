@@ -4,7 +4,8 @@ import cors from 'cors'
 
 import authRoute from "./routes/authRoute";
 import projectRoute from "./routes/projectRoutes"
-
+import ratingRoute  from   "./routes/ratingRoute"
+import commentRoute  from   "./routes/commentRoute"
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.get('/', (req, res) => {
 
 app.use("/auth", authRoute)
 app.use("/project", projectRoute)
+app.use("/comment", commentRoute);
+app.use("/rating",  ratingRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -23,6 +23,8 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   project    Project[]   //One-to-many relationship with projects
+  rating     Rating[]
+  comment   Comment[]
 }
 
 
@@ -40,6 +42,8 @@ model   Project {
   images       Image[]
   userId       Int               //foreign key to user
   user         User              @relation(fields: [userId], references: [id])
+  rating       Rating[]
+  comment      Comment[]
 }
 
 
@@ -60,6 +64,29 @@ model Tag{
   name      String      @unique
   projects  Project[]   @relation("ProjectTags")
 
+}
+
+
+model Rating {
+  id    Int    @id @default(autoincrement())
+  rating  Int  // 1-5 stars
+  createdAt  DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      Int  
+  user        User     @relation(fields: [userId], references: [id])
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+}
+
+model  Comment {
+  id    Int        @id @default(autoincrement())
+  text   String
+  createdAt  DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId   Int
+  user  User    @relation(fields: [userId],references: [id])
+  projectId  Int
+  project Project  @relation(fields: [projectId],references: [id])
 }
 
 enum Role {
