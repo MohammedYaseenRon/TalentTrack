@@ -163,11 +163,11 @@ export default function Projects() {
                 <div
                   key={project.id}
                   ref={(el) => { projectRefs.current[project.id] = el; }}
-                  className="bg-white h-[350px] rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+                  className="bg-white h-auto rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
                 >
                   {/* Correct usage of Link with anchor tag */}
                   <Link href={`/jobSeeker/projectDetails/${project.id}`}>
-                    <div className="h-3/5 relative rounded-t-xl overflow-hidden">
+                    <div className="h-48 relative rounded-t-xl overflow-hidden">
                       <Image
                         src={project.images && project.images.length > 0 ? project.images[0] : "/images/project1.png"}
                         alt="Project Image"

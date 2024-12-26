@@ -61,7 +61,11 @@
                     console.log('Logged in succesfully:', response.data)
                     console.log("Response Data:", response.data);
 
-                    router.push("/jobSeeker");
+                   if(user.role === "RECRUITER"){
+                    router.push("/recruiter")
+                   }else if(user.role === "JOB_SEEKER") {
+                    router.push("/jobSeeker")
+                   }
                 }catch(error:any) {
                     console.error('Login error', error);
                     setErrors(error.response?.data?.message || "Something went wrong!");

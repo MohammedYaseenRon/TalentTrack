@@ -18,7 +18,7 @@ interface SignupProps {
     name:string,
     email:string,
     password:string,
-    role: 'RECRUITER' | 'JOBSEEKER';
+    role: 'RECRUITER' | 'JOB_SEEKER';
 }
 
 export default function Signup() {
@@ -26,7 +26,7 @@ export default function Signup() {
     name:"",
     email:"",
     password:"",
-    role:"JOBSEEKER" //default value
+    role:"JOB_SEEKER" //default value
    });
 
 
@@ -71,7 +71,7 @@ export default function Signup() {
         try{
             const response = await axios.post("http://localhost:4000/auth/signup", formData);
             console.log("Signup successful:", response.data);
-            setFormData({ name: '', email: '', password: '', role: 'JOBSEEKER' }); 
+            setFormData({ name: '', email: '', password: '', role: 'JOB_SEEKER' }); 
             router.push('/auth/login');  
         }catch(error:any) {
             console.error("Error during signup",error);
@@ -144,13 +144,13 @@ export default function Signup() {
                             <Label htmlFor="role">Role</Label>
                             <Select 
                                 value={formData.role}
-                                onValueChange={(value: 'RECRUITER' | 'JOBSEEKER') => handleChange('role', value)}
+                                onValueChange={(value: 'RECRUITER' | 'JOB_SEEKER') => handleChange('role', value)}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="JOBSEEKER">Job Seeker</SelectItem>
+                                    <SelectItem value="JOB_SEEKER">Job Seeker</SelectItem>
                                     <SelectItem value="RECRUITER">Recruiter</SelectItem>
                                 </SelectContent>
                             </Select>
