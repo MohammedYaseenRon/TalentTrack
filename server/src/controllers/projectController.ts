@@ -60,7 +60,12 @@ export const getProjects = async (
 ): Promise<void> => {
 
     try {
-        const projects = await prisma.project.findMany();
+        const projects = await prisma.project.findMany({
+            include:{
+                tags:true,
+                images:true
+            }
+        })
         res.json(projects);
     } catch (error: any) {
         res.status(500).json({ message: `Error while creating ptoject: ${error.message}` });

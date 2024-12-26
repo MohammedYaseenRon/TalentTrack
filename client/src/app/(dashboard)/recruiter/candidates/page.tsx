@@ -26,7 +26,7 @@ interface ProjectCardProps {
 
 
 
-export default function Projects() {
+export default function CandidatesProjects() {
   const [projects, setProjects] = useState<ProjectCardProps[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<ProjectCardProps[]>([]);
   const [loading, setLoading] = useState(true);
