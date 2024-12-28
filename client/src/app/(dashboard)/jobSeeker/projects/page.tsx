@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from '@/components/ui/select';
+import { ProjectImage } from '@/components/ProjectsCard';
 
 interface ProjectCardProps {
   id: number;
@@ -20,8 +21,9 @@ interface ProjectCardProps {
   techStack: string[]; // Ensure it's an array
   livedemo: string;
   sourcecode: string;
-  images?: string[]; // Optional field for images
-  tags: string[]
+  images: { url: string; type: string }[];
+  tags: { id: number; name: string }[];
+
 }
 
 
@@ -168,11 +170,9 @@ export default function Projects() {
                   {/* Correct usage of Link with anchor tag */}
                   <Link href={`/jobSeeker/projectDetails/${project.id}`}>
                     <div className="h-48 relative rounded-t-xl overflow-hidden">
-                      <Image
-                        src={project.images && project.images.length > 0 ? project.images[0] : "/images/project1.png"}
-                        alt="Project Image"
-                        layout="fill"
-                        objectFit="cover"
+                      <ProjectImage
+                        imageUrl={project.images?.[0]?.url}
+                        altText={project.name || "Project"}
                       />
                     </div>
                     <div className="p-4 flex flex-col justify-between">
