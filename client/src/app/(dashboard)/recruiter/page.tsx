@@ -1,16 +1,28 @@
+"use client";
+
 import Applications from '@/components/Application'
+import JobOffer from '@/components/JobOffer'
 import Overview from '@/components/overview'
 import { Button } from '@/components/ui/button'
 import { Card,CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { ArrowUpRight, Briefcase, Calendar, FileText, Users } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const RecruiterDashboard = () => {
+  const [isModalOpen,setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  }
   return (
     <div className="space-y-6">
       <div className="flex justify-end">  
-        <Button>
+        <Button onClick={handleOpenModal}>
           <Briefcase className='w-4 h-4 mr-2' />
            Post Job
         </Button>
@@ -80,6 +92,12 @@ const RecruiterDashboard = () => {
         </Card>
 
       </div>
+      <JobOffer 
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        name="Create a Job"
+        // width='max-w-md'
+      />
 
     </div>
   )

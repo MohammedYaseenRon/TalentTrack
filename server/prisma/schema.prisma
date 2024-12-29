@@ -25,6 +25,9 @@ model User {
   project    Project[]   //One-to-many relationship with projects
   rating     Rating[]
   comment   Comment[]
+  notification  Notification[]
+  job    Job[]
+  application     Application[]
 }
 
 
@@ -87,6 +90,46 @@ model  Comment {
   user  User    @relation(fields: [userId],references: [id])
   projectId  Int
   project Project  @relation(fields: [projectId],references: [id])
+}
+model Notification {
+  id  Int  @id @default(autoincrement())
+  message   String
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+  createdAt  DateTime  @default(now())
+  isRead    Boolean    @default(false)
+}
+
+model Job {
+  id       Int    @id @default(autoincrement())
+  title    String
+  description String
+  skills     String
+  location   String
+  deadline    String
+  createdAt   DateTime    @default(now())
+  updatedAt    DateTime   @updatedAt
+  recruiterId  Int        
+  recruiter     User    @relation(fields: [recruiterId], references: [id])
+  application   Application[]
+
+}
+
+model  Application {
+  id  Int   @id @default(autoincrement())
+  jobId   Int
+  job      Job   @relation(fields: [jobId], references: [id])
+  userId   Int
+  user  User    @relation(fields: [userId], references: [id])
+  status   Status  @default(Pending)    //accept,reject,pending
+  appliedAt   DateTime    @default(now())
+
+}
+
+enum Status {
+  Pending
+  ACCEPTED
+  REJECTED
 }
 
 enum Role {
