@@ -4,11 +4,15 @@ import { ModalProps } from '@/state/api';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
+import { TagInput } from './TagInput';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { Button } from './ui/button';
 
 interface JobOfferProps {
     title: string;
     description: string;
-    skills: string;
+    skills: string[];
     location: string,
     deadline: string;
 }
@@ -17,25 +21,83 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
     const [formData, setFormData] = useState<JobOfferProps>({
         title: "",
         description: "",
-        skills: "",
+        skills: [],
         location: "",
         deadline: ""
     })
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string | null>(null);
+    const [inputValue, setInputValue] = useState("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrors(null)
         setLoading(true)
+
+        const { title, description, skills, location, deadline } = formData;
+
+        if (!title || !description || !skills || !location || !deadline) {
+            toast.error("All fields must be filled");
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem("token");
+            console.log("Token:", localStorage.getItem("token"));  // Log token before making the request
+
+            // console.log("Token retrieved from localStorage:", token);
+
+            if (!token) {
+                console.log("Authentication token is missing");
+                return;
+            }
+            const response = await axios.post("http://localhost:4000/jobs", {
+                title,
+                description,
+                skills,
+                location,
+                deadline
+              },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    }
+                })
+            console.log(response.data)
+            if (response.status == 201) {
+                setFormData({
+                    title,
+                    description,
+                    skills,
+                    location,
+                    deadline
+                })
+                onClose();
+                toast.success("Job created successfully");
+            }
+        } catch (error) {
+            console.log("Error while creating jobs", error);
+            toast.error("Error while creating Jobs")
+        }
         //api call 
     }
 
+    const handleAddSkill = (skill: string) => {
+        if (!formData.skills.includes(skill)) {
+            setFormData((prev) => ({ ...prev, skills: [...prev.skills, skill] }));
+        }
+    }
+
+    const handleRemoveSkill = (skill: string) => {
+        setFormData((prev) => ({ ...prev, skills: prev.skills.filter((s) => s !== skill) }))
+    }
     return (
         <Modal isOpen={isOpen} onClose={onClose} name="Jobs" width='max-w-md'>
             <form onSubmit={handleSubmit} className="space-y-6 p-6">
@@ -63,13 +125,18 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
                 </div>
                 <div className="space-y-2">
                     <Label className="text-sm font-medium text-gray-700" htmlFor="Skills">Skills</Label>
-                    <Input
+                    {/* <Input
                         id="skills"
                         name="skills"
                         placeholder='Enter a skills of the Job'
                         value={formData.skills}
                         onChange={handleInputChange}
                         className='w-[400px] h-[50px] text-black'
+                    /> */}
+                    <TagInput
+                        tags={formData.skills}
+                        onAddTag={handleAddSkill}
+                        onRemoveTag={handleRemoveSkill}
                     />
                 </div>
                 <div className="space-y-2">
@@ -88,11 +155,17 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
                     <Input
                         id="deadline"
                         name="deadline"
+                        type='date'
                         placeholder='Select a deadline of the Job'
                         value={formData.deadline}
                         onChange={handleInputChange}
                         className='w-[400px] h-[50px] text-black'
                     />
+                </div>
+                <div className='flex flex-row-reverse'>
+                    <Button type="submit" className="w-full h-[50px]">
+                        Create project
+                    </Button>
                 </div>
             </form>
 

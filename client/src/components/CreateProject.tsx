@@ -61,18 +61,18 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
         reader.readAsDataURL(file); // Convert to base64
       })
     );
-  
+
     Promise.all(readerPromises).then(base64Images => {
       setFormData(prev => ({
         ...prev,
-        images: base64Images,  
+        images: base64Images,
       }));
     }).catch(err => {
       console.error("Error reading images:", err);
       toast.error("Failed to process images. Please try again.");
     });
   };
-  
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -99,7 +99,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
     const { projectName, projectDescription, techStack, sourcecode, livedemo, images, tags } = payload;
 
 
-    if (!projectName || !projectDescription || !techStack || !sourcecode || !images.length  || !livedemo || !tags) {
+    if (!projectName || !projectDescription || !techStack || !sourcecode || !images.length || !livedemo || !tags) {
       toast.error("All fiels must be filled");
       return;
     }
@@ -122,12 +122,12 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
         livedemo,
         images,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        }
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          }
+        });
       console.log(response.data);
       if (response.status == 201) {
         setFormData({
@@ -139,7 +139,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
           sourcecode: "",
           images: [],
         });
-        onClose(); 
+        onClose();
         toast.success("Project created successfully.");
       }
     } catch (error) {
@@ -234,7 +234,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
         </div>
         <div className='flex flex-row-reverse'>
           <Button type="submit" className="w-full h-[50px]">
-             Create project
+            Create project
           </Button>
         </div>
       </form>
