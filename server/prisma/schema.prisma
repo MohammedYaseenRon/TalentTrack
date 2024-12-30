@@ -104,7 +104,7 @@ model Job {
   id       Int    @id @default(autoincrement())
   title    String
   description String
-  skills     String
+  skills     String[]
   location   String
   deadline    String
   createdAt   DateTime    @default(now())

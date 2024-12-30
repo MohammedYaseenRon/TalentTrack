@@ -1,18 +1,19 @@
-// /src/middlewares/roleMiddleware.ts
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
-import { Request, Response, NextFunction } from "express";
+export const roleMiddleware = (allowedRoles: string[]): RequestHandler => {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user || !req.user.role) {
+      res.status(401).json({ error: "User not authenticated" });
+      return;
+    }
 
-export const roleMiddleware = (roles: string[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    if (!allowedRoles.includes(req.user.role.toUpperCase())) {
+        console.log("Role middleware - Access denied for role:", req.user.role);
+        res.status(403).json({ error: "Access denied for this role" });
+      return;
+    }
 
-        if(!req.user) {
-            return res.status(401).json({error:"User not authenticated"});  
-        }
-
-        const { role } = req.user; // The role should be attached from the JWT
-        if (roles.includes(role)) {
-            return next(); // Allow access
-        }
-        return res.status(403).json({ error: "Access denied for this role" });
-    };
+    next();
+  };
 };
+
