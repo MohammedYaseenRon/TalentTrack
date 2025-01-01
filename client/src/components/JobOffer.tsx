@@ -13,6 +13,7 @@ interface JobOfferProps {
     title: string;
     description: string;
     skills: string[];
+    salary:string;
     location: string,
     deadline: string;
 }
@@ -22,6 +23,7 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
         title: "",
         description: "",
         skills: [],
+        salary:"",
         location: "",
         deadline: ""
     })
@@ -40,9 +42,9 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
         setErrors(null)
         setLoading(true)
 
-        const { title, description, skills, location, deadline } = formData;
+        const { title, description, skills,salary,location, deadline } = formData;
 
-        if (!title || !description || !skills || !location || !deadline) {
+        if (!title || !description || !skills || !salary || !location || !deadline) {
             toast.error("All fields must be filled");
             return;
         }
@@ -61,6 +63,7 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
                 title,
                 description,
                 skills,
+                salary,
                 location,
                 deadline
               },
@@ -73,11 +76,12 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
             console.log(response.data)
             if (response.status == 201) {
                 setFormData({
-                    title,
-                    description,
-                    skills,
-                    location,
-                    deadline
+                    title:"",
+                    description:"",
+                    skills:[],
+                    salary:"",
+                    location:"",
+                    deadline:""
                 })
                 onClose();
                 toast.success("Job created successfully");
@@ -137,6 +141,17 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
                         tags={formData.skills}
                         onAddTag={handleAddSkill}
                         onRemoveTag={handleRemoveSkill}
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label className="text-sm font-medium text-gray-700" htmlFor="Location">Salary:</Label>
+                    <Input
+                        id="salary"
+                        name="salary"
+                        placeholder='Enter a Salary of the Job'
+                        value={formData.salary}
+                        onChange={handleInputChange}
+                        className='w-[400px] h-[50px] text-black'
                     />
                 </div>
                 <div className="space-y-2">

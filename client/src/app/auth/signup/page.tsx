@@ -29,9 +29,7 @@ export default function Signup() {
     role:"JOB_SEEKER" //default value
    });
 
-
-    const [errors,setErrors] = useState<string[]>([]);
-    const [loading,setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
     const router = useRouter();
 
     const handleChange = (name: string, value: string) => {
@@ -47,8 +45,6 @@ export default function Signup() {
 
         if (!formData.email) {
         errorMessages.push('Email is required.');
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        errorMessages.push('Email is invalid.');
         }
       
           // Check if password is empty or too short
@@ -84,6 +80,8 @@ export default function Signup() {
 
     }
 
+    const [errors,setErrors] = useState<string[]>([]);
+  
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
             <Card className="w-full max-w-md">

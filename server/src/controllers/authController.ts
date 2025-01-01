@@ -11,6 +11,13 @@ export const signup = async(req:Request, res:Response): Promise<void> => {
     try {
         const {name, email, password, role}:SignupInput = req.body;
 
+        const emailRegex = /\S+@\S+\.\S+/;
+        if (!emailRegex.test(email)) {
+            res.status(400).json({ error: "Invalid email format" });
+            return;
+        }
+
+
         if (role !== "JOB_SEEKER" && role !== "RECRUITER") {
             res.status(400).json({ error: "Invalid role" });
             return;

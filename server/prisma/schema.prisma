@@ -105,6 +105,7 @@ model Job {
   title    String
   description String
   skills     String[]
+  salary     String
   location   String
   deadline    String
   createdAt   DateTime    @default(now())

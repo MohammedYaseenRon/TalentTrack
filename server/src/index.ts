@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request,Response} from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors'
 
@@ -7,6 +7,7 @@ import projectRoute from "./routes/projectRoutes"
 import ratingRoute  from   "./routes/ratingRoute"
 import commentRoute  from   "./routes/commentRoute"
 import jobRoute from  "./routes/jobRoute"
+import userRoute from "./routes/userRoute"
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/project", projectRoute)
 app.use("/comment", commentRoute);
 app.use("/rating",  ratingRoute);
 app.use("/jobs", jobRoute);
+app.use("/user", userRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

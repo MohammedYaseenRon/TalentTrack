@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 
 export const createJob = async (req:Request,res:Response):Promise<void> => {
-    const {title,description,skills,location,deadline} = req.body;
+    const {title,description,skills,salary,location,deadline} = req.body;
     const recruiterId = req.user?.id;
     // const role = req.user?.role;
     console.log('User:', req.user);  // Log to verify if user object contains role
@@ -24,6 +24,7 @@ export const createJob = async (req:Request,res:Response):Promise<void> => {
                 title,
                 description,
                 skills,
+                salary,
                 location,
                 deadline,
                 recruiterId
