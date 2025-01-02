@@ -71,6 +71,7 @@ export default function JobSeeker() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         name="Create Project"
+        className=""
      />
     </div>
   );

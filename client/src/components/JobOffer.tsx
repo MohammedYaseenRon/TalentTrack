@@ -8,17 +8,10 @@ import { TagInput } from './TagInput';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Button } from './ui/button';
+import { JobOfferProps } from '@/state/api';
 
-interface JobOfferProps {
-    title: string;
-    description: string;
-    skills: string[];
-    salary:string;
-    location: string,
-    deadline: string;
-}
 
-const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
+const JobOffer: React.FC<ModalProps> = ({ hisOpen, onClose, name, widt }) => {
     const [formData, setFormData] = useState<JobOfferProps>({
         title: "",
         description: "",
@@ -179,7 +172,7 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width }) => {
                 </div>
                 <div className='flex flex-row-reverse'>
                     <Button type="submit" className="w-full h-[50px]">
-                        Create project
+                        Create Job
                     </Button>
                 </div>
             </form>

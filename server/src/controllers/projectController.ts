@@ -9,7 +9,7 @@ export const createProject = async (
 ): Promise<void> => {
     const { name, description, techStack, livedemo, sourcecode, tags, images } = req.body;
 
-    const { userId } = req.user;
+    const { id:userId } = req.user;
     const normalizedTags = Array.isArray(tags) ? tags : [tags];
     const normalizedTechStack = Array.isArray(techStack) ? techStack : (typeof techStack === 'string' ? techStack.split(',').map((item: string) => item.trim()) : []);
     

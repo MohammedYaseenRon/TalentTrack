@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react'
-import { ChevronLeft, ChevronRight, Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar, FileText, Mail, TypeIcon as type, LucideIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar,Briefcase, FileText, Mail, TypeIcon as type, LucideIcon } from 'lucide-react'
 import { Button } from './ui/button';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import Link from 'next/link';
@@ -23,7 +23,7 @@ interface SidebarProps {
 }
 
 const iconMap: { [key: string]: LucideIcon } = {
-    Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar, FileText, Mail
+    Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar, FileText, Mail,Briefcase
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ className, menuItems, title = "Dashboard" }) => {

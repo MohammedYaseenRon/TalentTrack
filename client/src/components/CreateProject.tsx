@@ -11,6 +11,7 @@ import { Button } from './ui/button';
 import { ImagePicker } from './ImagePicker';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { ModalProps } from '@/state/api';
 
 
 
@@ -24,13 +25,7 @@ interface ProjectProps {
   images: string[]
 
 }
-interface ModalProps {
-  id?: string | null;
-  isOpen: boolean;
-  onClose: () => void;
-  name: string;
 
-}
 interface ImageUploadResponse {
   url: string;
   type: string;
@@ -38,7 +33,7 @@ interface ImageUploadResponse {
 
 
 
-const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
+const CreateProject = ({ isOpen, onClose, name,className }: ModalProps) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
   const [formData, setFormData] = useState<ProjectProps>({
@@ -80,10 +75,10 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("Form submitted"); // Add this line to check
     e.preventDefault();
     setLoading(true);
     setErrors(null);
-    console.log("Form submitted"); // Add this line to check
 
     const payload = {
       ...formData,
@@ -233,7 +228,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
           />
         </div>
         <div className='flex flex-row-reverse'>
-          <Button type="submit" className="w-full h-[50px]">
+          <Button type="submit" className="w-full h-[50px]" disabled={loading}>
             Create project
           </Button>
         </div>

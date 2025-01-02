@@ -62,7 +62,6 @@ export default function Projects() {
     const fetchProjects = async () => {
       try {
         const response = await axios.get("http://localhost:4000/project");
-        console.log("http://localhost:4000/project");
         console.log("API Response:", response.data);
         setProjects(response.data);
         setLoading(false);
