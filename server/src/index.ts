@@ -8,6 +8,7 @@ import ratingRoute  from   "./routes/ratingRoute"
 import commentRoute  from   "./routes/commentRoute"
 import jobRoute from  "./routes/jobRoute"
 import userRoute from "./routes/userRoute"
+import  applicationRoute from "./routes/applicationRoutes"
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use("/comment", commentRoute);
 app.use("/rating",  ratingRoute);
 app.use("/jobs", jobRoute);
 app.use("/user", userRoute);
+app.use("/application", applicationRoute);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

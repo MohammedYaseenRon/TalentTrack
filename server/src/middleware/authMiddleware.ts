@@ -19,7 +19,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as UserJwtPayload;
-    console.log("Decoded token:", decoded);
+    // console.log("Decoded token:", decoded);
     req.user = { id: decoded.userId, role: decoded.role };
     console.log('User set in req:', req.user);
     next();
