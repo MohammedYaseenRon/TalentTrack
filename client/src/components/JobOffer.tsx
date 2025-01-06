@@ -11,7 +11,7 @@ import { Button } from './ui/button';
 import { JobOfferProps } from '@/state/api';
 
 
-const JobOffer: React.FC<ModalProps> = ({ hisOpen, onClose, name, widt }) => {
+const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
     const [formData, setFormData] = useState<JobOfferProps>({
         title: "",
         description: "",

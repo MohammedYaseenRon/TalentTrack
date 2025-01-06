@@ -6,5 +6,7 @@ const router = Router();
 
 router.post('/', authenticateToken, roleMiddleware(['RECRUITER']), createJob);
 router.get('/',getJobs);
+router.get('/:id',getJobs); 
+
 
 export default router;

@@ -1,11 +1,11 @@
-import { Request,Response } from "express";
+import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 
-export const createJob = async (req:Request,res:Response):Promise<void> => {
-    const {title,description,skills,salary,location,deadline} = req.body;
+export const createJob = async (req: Request, res: Response): Promise<void> => {
+    const { title, description, skills, salary, location, deadline } = req.body;
     const recruiterId = req.user?.id;
     // const role = req.user?.role;
     console.log('User:', req.user);  // Log to verify if user object contains role
@@ -18,9 +18,9 @@ export const createJob = async (req:Request,res:Response):Promise<void> => {
         });
         return;
     }
-    try{
+    try {
         const newJob = await prisma.job.create({
-            data:{
+            data: {
                 title,
                 description,
                 skills,
@@ -31,8 +31,8 @@ export const createJob = async (req:Request,res:Response):Promise<void> => {
             }
         })
         res.status(201).json(newJob)
-    }catch(error:any){
-        res.status(500).json({error: "An error while creating Jobs"})
+    } catch (error: any) {
+        res.status(500).json({ error: "An error while creating Jobs" })
     }
 }
 
@@ -43,16 +43,40 @@ export const getJobs = async (
 
     try {
         const jobs = await prisma.job.findMany({
-            include:{
-                recruiter:true
+            include: {
+                recruiter: true
             },
         });
-        if(jobs.length ===  0) {
-            res.status(404).json({message: "No jobs found"});
+        if (jobs.length === 0) {
+            res.status(404).json({ message: "No jobs found" });
             return;
         }
         res.json(jobs);
     } catch (error: any) {
         res.status(500).json({ message: `Error while creating ptoject: ${error.message}` });
+    }
+};
+
+export const getJobsById = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+
+    const { id } = req.params;
+
+    try {
+        const jobs = await prisma.project.findUnique({
+            where: {
+                id: Number(id)
+            },
+        });
+
+        if (!jobs) {
+            res.status(404).json({ message: "Job not found" });
+        }
+
+        res.json(jobs);
+    } catch (error: any) {
+        res.status(500).json({ message: `Error while finding project: ${error.message}` });
     }
 };

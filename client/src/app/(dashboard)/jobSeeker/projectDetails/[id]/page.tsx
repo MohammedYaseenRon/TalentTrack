@@ -29,7 +29,7 @@ const projectDetails = () => {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
-    if (!id) return; // Ensure that 'id' is available before fetchin
+    if (!id) return; // Ensure that 'id' is available before fetching
     const fetchProjectDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/project/${id}`);
