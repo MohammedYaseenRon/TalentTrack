@@ -14,7 +14,7 @@ import { JobOfferProps } from '@/state/api';
 const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
     const [formData, setFormData] = useState<JobOfferProps>({
         title: "",
-        description: "",
+        description: "",    
         skills: [],
         salary:"",
         location: "",

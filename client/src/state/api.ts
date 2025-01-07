@@ -9,6 +9,7 @@ export interface ModalProps {
   
 }
 export interface JobOfferProps {
+    id?:number
     title: string;
     description: string;
     skills: string[];
@@ -19,7 +20,7 @@ export interface JobOfferProps {
 
 export interface Company {
     name: string,
-    postion: string,
+    position: string,
     duration: string
 }
 

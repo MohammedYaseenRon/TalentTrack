@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 export const createApplication = async (req: Request, res: Response): Promise<void> => {
     try {
         const { jobId, userId, coverLetter, expectedSalary, resumeUrl, noticePeriod, education, workExperience, skills, additionalInfo } = req.body;
+        console.log("Received req.body:", req.body);
 
         if (!jobId || !userId || !coverLetter || !expectedSalary || !resumeUrl || !noticePeriod || !education || !workExperience || !skills || !additionalInfo) {
             console.log("Field required field first");
@@ -16,7 +17,7 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
             return;
         }
 
-        const application = await prisma.$transaction(async (prisma) => {
+        const {application,notification } = await prisma.$transaction(async (prisma) => {
             const application = await prisma.application.create({
                 data: {
                     jobId,
@@ -46,11 +47,13 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
                     userId: application.job.recruiterId
 
                 }
-            })
-            res.status(200).json(notification);
-            return
+            });
+            return {notification,application};
         })
-        res.status(201).json({message:"Application successfully created",application});
+        res.status(201).json({message:"Application successfully created",
+            application,
+            notification
+        });
     } catch (error) {
         console.error("Error while creating application", error);
     }
