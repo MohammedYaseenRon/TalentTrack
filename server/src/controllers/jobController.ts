@@ -65,7 +65,7 @@ export const getJobsById = async (
     const { id } = req.params;
 
     try {
-        const jobs = await prisma.project.findUnique({
+        const jobs = await prisma.job.findUnique({
             where: {
                 id: Number(id)
             },
@@ -77,6 +77,6 @@ export const getJobsById = async (
 
         res.json(jobs);
     } catch (error: any) {
-        res.status(500).json({ message: `Error while finding project: ${error.message}` });
+        res.status(500).json({ message: `Error while fetching jobs: ${error.message}` });
     }
 };

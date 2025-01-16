@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator"
 import Modal from '@/components/Modal'
 import { ApplicationsForm } from '@/state/api'
 import { Button } from "@/components/ui/button"
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 
 interface ApplicationProps {
   id: number
@@ -35,6 +36,7 @@ const JobOffer = () => {
   const [error, setError] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [fetchingApplications, setFetchingApplications] = useState(false)
+  const [status, setStatus] = useState<string>("");
 
 
 
@@ -59,6 +61,11 @@ const JobOffer = () => {
 
   }
 
+  const handleStatuseChange = (newStatus: string, applicationId: number) => {
+    setStatus(newStatus)
+    updateApplicationStatus(applicationId, newStatus);
+
+  }
 
   const fetchApplication = async (jobId: number) => {
     setFetchingApplications(true)
@@ -72,6 +79,30 @@ const JobOffer = () => {
     } finally {
       setFetchingApplications(false)
     }
+  }
+
+  const updateApplicationStatus = async (applicationId: number, newStatus: string) => {
+    try {
+      const response = await axios.patch(`http://localhost:4000/application/${applicationId}/status`,
+        { status: newStatus }
+      );
+      console.log(response);
+
+      if (response.status == 200) {
+        setApplications((prevApplication) =>
+          prevApplication.map((app) =>
+            app.id == applicationId ? { ...app, status: newStatus } : app
+          )
+        )
+      } else {
+        throw new Error('Failed to update application status');
+      }
+
+    } catch (error) {
+      console.error('Error updating status', error);
+      setError('Failed to update application status');
+    }
+
   }
 
 
@@ -94,17 +125,19 @@ const JobOffer = () => {
   if (error) return <div>Error: {error}</div>
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'accepted':
-        return 'bg-green-100 text-green-800'
-      case 'rejected':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
+    const statusColors: { [key: string]: string } = {
+      PENDING: "bg-yellow-500",
+      SHORTLISTED: "bg-blue-500",
+      REJECTED: "bg-red-500",
+      ACCEPTED: "bg-green-500",
+      REVIEWING: "bg-purple-500",
+      INTERVIEWED: "bg-indigo-500",
+      WITHDRAWN: "bg-gray-500",
+      OFFERED: "bg-teal-500",
+    };
+    return statusColors[status] || "bg-gray-300";
+  };
+
 
   return (
     <>
@@ -190,6 +223,24 @@ const JobOffer = () => {
                       <div className="flex items-center justify-between">
                         <CardTitle className="text-xl">{app.user.name}</CardTitle>
                         <Badge className={getStatusColor(app.status)}>{app.status}</Badge>
+                        <Select
+                          value={app.status}
+                          onValueChange={(newValue) => handleStatuseChange(newValue, app.id)}
+                        >
+                          <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="PENDING">Pending</SelectItem>
+                            <SelectItem value="SHORTLISTED">Shortlisted</SelectItem>
+                            <SelectItem value="REJECTED">Rejected</SelectItem>
+                            <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                            <SelectItem value="REVIEWING">Reviewing</SelectItem>
+                            <SelectItem value="INTERVIEWED">Interviewed</SelectItem>
+                            <SelectItem value="WITHDRAWN">Withdrawn</SelectItem>
+                            <SelectItem value="OFFERED">Offered</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </CardHeader>
                     <CardContent className="pt-6">
