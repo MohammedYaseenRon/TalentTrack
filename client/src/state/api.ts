@@ -31,7 +31,7 @@ export interface Education{
     graduationYear:string
 }
 export interface ApplicationsForm {
-    resumeUrl:string,
+    resumeUrl:File | null,
     coverLetter:string,
     expectedSalary:string,
     noticePeriod:string,

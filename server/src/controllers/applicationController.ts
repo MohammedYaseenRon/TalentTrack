@@ -1,26 +1,51 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { Status } from "@prisma/client";
-import exp from "constants";
-
+import multer from "multer";
+import path from "path";
+import fs from "fs"
 
 const prisma = new PrismaClient();
 
 export const createApplication = async (req: Request, res: Response): Promise<void> => {
+
     try {
-        const { jobId, userId, coverLetter, expectedSalary, resumeUrl, noticePeriod, education, workExperience, skills, additionalInfo } = req.body;
+
+        await new Promise<void>((resolve, reject) => {
+            upload.single("resume")(req, res, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
+
+        const userId = req.user?.id;
+        if(!userId) {
+            res.status(400).json({message: "Unauthoreized: No user Id found in request"});
+            return;
+        }
+
+        const { jobId, coverLetter, expectedSalary, noticePeriod, education, workExperience, skills, additionalInfo } = req.body;
         console.log("Received req.body:", req.body);
 
-        if (!jobId || !userId || !coverLetter || !expectedSalary || !resumeUrl || !noticePeriod || !education || !workExperience || !skills || !additionalInfo) {
+        if (!jobId || !userId || !coverLetter || !expectedSalary || !noticePeriod || !education || !workExperience || !skills || !additionalInfo) {
             console.log("Field required field first");
             res.status(400).json({ message: "Please provide all required fields" });
             return;
         }
+        if (!req.file) {
+            res.status(400).json({ message: "Resume file is requires" });
+            return
 
-        const {application,notification } = await prisma.$transaction(async (prisma) => {
+        }
+        const resumeUrl = `/uploads/${req.file.filename}`; // Uploaded file path
+
+        const { application, notification } = await prisma.$transaction(async (prisma) => {
             const application = await prisma.application.create({
                 data: {
-                    jobId,
+                    jobId: parseInt(jobId),
                     userId,
                     status: Status.PENDING,
                     coverLetter,
@@ -29,9 +54,9 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
                     noticePeriod,
                     applicationDetails: {
                         create: {
-                            education,
-                            workExperience,
-                            skills,
+                            education: JSON.parse(education),
+                            workExperience: JSON.parse(workExperience),
+                            skills: JSON.parse(skills),
                             additionalInfo
                         }
                     }
@@ -48,121 +73,161 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
 
                 }
             });
-            return {notification,application};
+            return { notification, application };
         })
-        res.status(201).json({message:"Application successfully created",
+        console.log("File uploaded successfully:", req.file);
+        res.status(201).json({
+            message: "Application successfully created",
             application,
             notification
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error while creating application", error);
     }
 }
 
-export const getAllApplication = async (req:Request, res:Response):Promise<void> => {
-    try{
+export const getAllApplication = async (req: Request, res: Response): Promise<void> => {
+    try {
 
-        const {jobId} = req.params;
+        const { jobId } = req.params;
         const applications = await prisma.application.findMany({
-            where:{
-                jobId:parseInt(jobId)
+            where: {
+                jobId: parseInt(jobId)
             },
-            include:{
-                user:{
-                    select:{
-                        id:true,
-                        name:true,
-                        email:true
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true
                     }
                 },
-                applicationDetails:true
+                applicationDetails: true
             }
         })
         res.status(200).json(applications)
 
-    }catch(error){
-        console.error("Error while fetching all applications",error);
-        res.status(500).json({message:"Server error while fetching applications"});
+    } catch (error) {
+        console.error("Error while fetching all applications", error);
+        res.status(500).json({ message: "Server error while fetching applications" });
     }
 }
 
-export const getUserApplication = async (req:Request, res:Response):Promise<void> => {
-    try{
-        const {userId} = req.params;
-        const applications =  await prisma.application.findMany({
-            where:{
+export const getUserApplication = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { userId } = req.params;
+        const applications = await prisma.application.findMany({
+            where: {
                 userId: parseInt(userId)
             },
-            include:{
-                job:true,
-                applicationDetails:true
+            include: {
+                job: true,
+                applicationDetails: true
             },
         })
         res.status(200).json(applications);
-    }catch(error) {
+    } catch (error) {
         console.error("Error while getting specific application", error);
         res.status(500).json("Server error while getting specific application");
     }
 }
 
-export const updateApplicationStatus = async (req:Request, res:Response):Promise<void> => {
-    try{
-        const {id} = req.params;
-        const { status } =  req.body;
-        
-        if (!['SHORTLISTED', 'REJECTED', 'ACCEPTED', 'PENDING','REVIEWING','INTERVIEWED','WITHDRAWN','OFFERED'].includes(status)) {
+export const updateApplicationStatus = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!['SHORTLISTED', 'REJECTED', 'ACCEPTED', 'PENDING', 'REVIEWING', 'INTERVIEWED', 'WITHDRAWN', 'OFFERED'].includes(status)) {
             res.status(400).json({ message: "Invalid status" });
             return;
         }
         const application = await prisma.application.update({
-            where:{
-                id:parseInt(id)
+            where: {
+                id: parseInt(id)
             },
-            data:{
+            data: {
                 status
             },
-            include:{
-                user:true,
-                job:true
+            include: {
+                user: true,
+                job: true
             }
         })
         const notification = await prisma.notification.create({
-            data:{
+            data: {
                 message: `Your application for: ${application.job.title} has been ${status.toLowerCase()}`,
                 userId: application.userId
 
             }
         })
-        res.status(200).json({message: "Successfully updated application",application,notification})
-    }catch(error){
+        res.status(200).json({ message: "Successfully updated application", application, notification })
+    } catch (error) {
         console.error("Error while updating application");
         res.status(500).json("Server error while updating application");
     }
 }
 
-export const getShortListedCandidates = async (req:Request, res:Response):Promise<void> => {
-    try{
-        const {jobId} = req.params;        
-        
+export const getShortListedCandidates = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { jobId } = req.params;
+
         const shortListedCndidates = await prisma.application.findMany({
-            where:{
+            where: {
                 jobId: parseInt(jobId),
                 status: Status.SHORTLISTED
             },
-            include:{
-               user:{
-                select:{
-                    id:true,
-                    name:true,
-                    email:true
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true
+                    },
                 },
-               },
-               applicationDetails:true,
+                applicationDetails: true,
             },
         });
-        res.status(200).json({message: "Successfully got shortlisted candidates",shortListedCndidates});
-    }catch(error){
+        res.status(200).json({ message: "Successfully got shortlisted candidates", shortListedCndidates });
+    } catch (error) {
         console.error("Error while fetching shortListed Candidates", error);
         res.status(500).json("Server error while fetching shortListed Candidates");
     }
 }
+
+export const deleteApplication = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const deleteApplication = await prisma.application.delete({
+            where: {
+                id: parseInt(id),
+            },
+            include: {
+                job: true,
+                applicationDetails: true
+            },
+        })
+        res.status(200).json(deleteApplication);
+    } catch (error) {
+        console.error("Error while deleting application", error);
+        res.status(500).json("Server error while while deleting application");
+    }
+}
+
+const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads/"); // Specify the directory for file uploads
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`);
+    },
+});
+
+const upload = multer({ storage });
+
+

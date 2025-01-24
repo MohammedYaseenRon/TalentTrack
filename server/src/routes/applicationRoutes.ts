@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { createApplication,updateApplicationStatus,getAllApplication,getUserApplication } from "../controllers/applicationController";   
+import { authenticateToken } from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.post('/', createApplication);
+router.post('/',authenticateToken, createApplication);
 router.get('/job/:jobId',   getAllApplication);
 router.get('/user/:userId',  getUserApplication)
 router.patch('/:id/status', updateApplicationStatus);
