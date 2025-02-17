@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 
 export const scheduleInterview = async (req: Request, res: Response): Promise<void> => {
     const {applicationId,interviewType,slotId,interviewerName} = req.body;
-    try {           
+    console.log("Received interview scheduling request:", req.body);
+    try {        
         const interview = await prisma.interview.create({
             data:{
                 applicationId,
@@ -26,15 +27,23 @@ export const scheduleInterview = async (req: Request, res: Response): Promise<vo
                 isBooked:true
             }
         })
+        
         res.status(201).json({message:"Successfully scheduled an interview", interview});
-    } catch (error) {
-        res.status(500).json({error:"error while scheduling an interview"})
-        console.error("Server error while scheduling an interview")
+    } catch (error:any) {
+        console.error("Server error while scheduling an interview",error);
+        res.status(500).json({error:"error while scheduling an interview",details:error.message})
+
     }
 }
 
 export const createSlot = async (req:Request, res:Response): Promise<void> => {
-    const {startTime,endTime,recruiterId} = req.body;
+    if (!req.user) {
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+    }
+
+    const recruiterId = req.user.id
+    const {startTime,endTime} = req.body;
     try{
         const slot = await prisma.interviewSlot.create({
             data:{
@@ -51,13 +60,13 @@ export const getSlot = async (req:Request, res:Response): Promise<void> => {
     try{
         const slots = await prisma.interviewSlot.findMany({
             where:{
-                isBooked:true,
+                isBooked:false
             },
             include:{
                 recruiter:true
             }
         })
-        res.status(201).json(slots);
+        res.status(200).json(slots);
     }catch(error){
         res.status(500).json({error:"Error fetching slots"})
         console.error(error);

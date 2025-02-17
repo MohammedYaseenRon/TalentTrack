@@ -207,9 +207,9 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
     <Modal isOpen={isOpen} onClose={onClose} name={name}>
       <Card className="space-y-4 w-full w-max-2xl mx-auto">
         {/* <CardHeader>
-                            <CardTitle>Job application</CardTitle>
-                            <CardDescription>Apply for: {jobTitle}</CardDescription>
-                        </CardHeader> */}
+              <CardTitle>Job application</CardTitle>
+              <CardDescription>Apply for: {jobTitle}</CardDescription>
+            </CardHeader> */}
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6 p-4">
             <div className="space-y-2">

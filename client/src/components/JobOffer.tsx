@@ -13,6 +13,7 @@ import { JobOfferProps } from '@/state/api';
 
 const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
     const [formData, setFormData] = useState<JobOfferProps>({
+        id:1,
         title: "",
         description: "",    
         skills: [],
@@ -69,6 +70,7 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
             console.log(response.data)
             if (response.status == 201) {
                 setFormData({
+                    id:1,
                     title:"",
                     description:"",
                     skills:[],

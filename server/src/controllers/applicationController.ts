@@ -90,9 +90,15 @@ export const getAllApplication = async (req: Request, res: Response): Promise<vo
     try {
 
         const { jobId } = req.params;
+        console.log("Received jobId:", jobId); // Add this log
+
+        const parsedJobId = Number(jobId);
+        if (!parsedJobId || isNaN(parsedJobId)) {
+            res.status(400).json({ message: "Invalid jobId" });
+        }
         const applications = await prisma.application.findMany({
             where: {
-                jobId: parseInt(jobId)
+                jobId: parsedJobId
             },
             include: {
                 user: {
@@ -112,6 +118,49 @@ export const getAllApplication = async (req: Request, res: Response): Promise<vo
         res.status(500).json({ message: "Server error while fetching applications" });
     }
 }
+// export const getApplicationDetails = async (req: Request, res: Response): Promise<void> => {
+//     try {
+
+//         const { applicationId } = req.params;
+//         console.log("Received application:", applicationId); // Add this log
+
+//         const parseapplicationId = Number(applicationId);
+//         if (!applicationId || isNaN(parseapplicationId)) {
+//             res.status(400).json({ message: "Invalid application Id" });
+//         }
+//         const applications = await prisma.application.findMany({
+//             where:{
+//                 id:parseapplicationId
+//             },
+//             include:{
+//                 user:{
+//                     select:{
+//                         id:true,
+//                         name:true,
+//                         email:true
+//                     }
+//                 },
+//                 job:{
+//                     select:{
+//                         id:true,
+//                         title:true,
+//                         recruiterId:true
+//                     }
+//                 },
+//                 applicationDetails:true
+//             }
+
+//         })
+//         if (!applications) {
+//             res.status(404).json({ message: "Application not found" });
+//         }
+//         res.status(200).json(applications)
+
+//     } catch (error) {
+//         console.error("Error while fetching all applications", error);
+//         res.status(500).json({ message: "Server error while fetching applications" });
+//     }
+// }
 
 export const getUserApplication = async (req: Request, res: Response): Promise<void> => {
     try {
