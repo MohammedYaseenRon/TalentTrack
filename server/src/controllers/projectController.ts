@@ -1,7 +1,24 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import cloudinary from "../../config/cloudinary";
+import multer from "multer"
+import { CloudinaryStorage } from "multer-storage-cloudinary"
 
 const prisma = new PrismaClient();
+
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: async (req, file) => ({
+        resource_type: "auto",
+        format: file.mimetype.split("/")[1], // Extract format dynamically
+        public_id: `${Date.now()}-${file.originalname.split('.')[0]}`,
+        folder: "projects", // ✅ Folder now correctly inside the params function
+    }),
+});
+
+
+export const upload = multer({ storage: storage })
+
 
 export const createProject = async (
     req: any,
@@ -9,25 +26,27 @@ export const createProject = async (
 ): Promise<void> => {
     const { name, description, techStack, livedemo, sourcecode, tags, images } = req.body;
 
-    const { id:userId } = req.user;
-    const normalizedTags = Array.isArray(tags) ? tags : [tags];
+    const { id: userId } = req.user;
+    const normalizedTags = typeof tags === "string"
+        ? tags.split(',').map((tag: string) => ({ name: tag.trim() }))
+        : Array.isArray(tags) ? tags.map((tag: any) => (typeof tag === "string" ? { name: tag.trim() } : tag)) : [];
+
+    console.log("Normalized Tags:", normalizedTags);
+
+    console.log(normalizedTags);
     const normalizedTechStack = Array.isArray(techStack) ? techStack : (typeof techStack === 'string' ? techStack.split(',').map((item: string) => item.trim()) : []);
-    
-    const validatedImages = images.map((img: any) => {
-        if (img.data && img.data.startsWith('data:image')) {
-            const base64Data = img.data.split(',')[1]; // Get the base64 string without prefix
-            return {
-                url: img.url || null,
-                type: img.type,
-                data: Buffer.from(base64Data, 'base64'),
-            };
-        } else {
-            throw new Error('Invalid image data format');
-        }
-    });
+    const files = req.files as Express.Multer.File[]; // Fix: Use req.files
+
     console.log(normalizedTags);
 
     try {
+        const uploadImages = files.map((file) => ({
+            url: file.path,
+            type: file.mimetype,
+        }));
+
+
+
         const newProject = await prisma.project.create({
             data: {
                 name,
@@ -36,15 +55,16 @@ export const createProject = async (
                 livedemo,
                 sourcecode,
                 tags: {
-                    connectOrCreate: normalizedTags.map((object: any) => ({
-                        where: { name: object.name },
-                        create: { name: object.name }
+                    connectOrCreate: normalizedTags.map((tag: any) => ({
+                        where: { name: tag.name },
+                        create: { name: tag.name }
                     }))
                 },
-                images:{create:validatedImages},
+                images: { create: uploadImages }, // Now correctly structured
                 userId,
             },
         });
+        console.log(newProject);
 
         res.status(201).json(newProject);
 
@@ -61,9 +81,9 @@ export const getProjects = async (
 
     try {
         const projects = await prisma.project.findMany({
-            include:{
-                tags:true,
-                images:true
+            include: {
+                tags: true,
+                images: true
             }
         })
         res.json(projects);
@@ -83,6 +103,9 @@ export const getProjectById = async (
             where: {
                 id: Number(id)
             },
+            include:{
+                images:true
+            }
         });
 
         if (!project) {

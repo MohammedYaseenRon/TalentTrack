@@ -54,7 +54,6 @@ model Image {
   id        Int      @id @default(autoincrement())
   url       String?
   type      String
-  data      Bytes // Binary data for the image
   projectId Int
   project   Project  @relation(fields: [projectId], references: [id])
   createdAt DateTime @default(now())
