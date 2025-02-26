@@ -1,24 +1,48 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
-import Working from "@/components/Working";
-import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import AnimatedGradientText from "@/components/GradientText";
+import Working from "@/components/Working";
+import Information from "@/components/Information";
+import Features from "@/components/Features";
+import Footer from "@/components/Footer";
+import Testimonals from "@/components/Testimonals";
+
+const MotionButton = ({ href, text, bgColor }:any) => (
+  <Link href={href}>
+    <motion.button
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      whileHover={{ scale: 1.05 }}
+      className={`px-6 py-3 ${bgColor} border border-white text-white font-bold rounded-lg shadow-lg focus:outline-none`}
+    >
+      {text}
+    </motion.button>
+  </Link>
+);
 
 export default function Home() {
   return (
-    <div className="bg-white w-full h-screen">
+    <div className="bg-[#F8F1F1] flex flex-col">
       <Navbar />
-      <div className="flex justify-center items-center p-16 md:p-32">
+      <div className="flex flex-col min-h-screen justify-center items-center flex-grow px-6 md:px-12">
         <div className="max-w-2xl space-y-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800">Showcase Your Talents, Land your Dream Job</h1>
-          <p className="text-2xl md:text-3xl font-semiboldtext-gray-500 md:text-xl dark:text-gray-400">Get Hired with Your Work</p>
-          <div className="flex justify-center items-center gap-4">
-            <Link href="/auth/login"><Button className="bg-black text-sm text-black text-white px-8 py-4">Get started</Button></Link>
-            <Button variant="outline" className="px-8 py-4 text-sm">Learn More</Button>
+          <AnimatedGradientText text="Showcase Your Talents, Land Your Dream Job" className="mb-6" />
+          <p className="text-3xl md:text-2xl font-extrabold text-red-800">Get Hired with Your Work</p>
+          <div className="flex justify-center items-center gap-8">
+            <MotionButton href="/auth/login" text="Get Started" bgColor="bg-[#FF6B6B]" />
+            <MotionButton href="#" text="Learn More" bgColor="bg-black" />
           </div>
         </div>
       </div>
+      <Features />
       <Working />
+      {/* <Information /> */}
+      <Testimonals />
+      <Footer />
     </div>
   );
 }

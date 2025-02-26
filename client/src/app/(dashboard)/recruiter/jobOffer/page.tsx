@@ -78,14 +78,14 @@ import { useJobStore } from '@/state/jobStore';
             <div className="overflow-hidden rounded-lg border border-gray-200 shadow-lg mt-4">
               <Table className="w-full">
                 <TableHeader className="bg-black">
-                  <TableRow>
+                  <TableRow> 
                     <TableHead className="w-[50px] text-white">
                       <Checkbox />
                     </TableHead>
-                    <TableHead className="text-white">Job Id</TableHead>
+                    <TableHead className="text-white text-left">Job Id</TableHead>
                     <TableHead className="text-white">Job Name</TableHead>
                     <TableHead className="text-white">Actions</TableHead>
-                    <TableHead className="text-right text-white mr-4">View Application</TableHead>
+                    <TableHead className="text-right text-white">View Application</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -175,7 +175,7 @@ import { useJobStore } from '@/state/jobStore';
                       <CardContent className="pt-6">
                         <div className="grid gap-6">
                           <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4 space-y-2">
                               <div>
                                 <p className="text-sm text-gray-500">Email</p>
                                 <p className="font-medium">{app.user.email}</p>
@@ -185,12 +185,12 @@ import { useJobStore } from '@/state/jobStore';
                                 <p className="font-medium">{new Date(app.appliedAt).toLocaleDateString()}</p>
                               </div>
                               <div>
-                                <p className="text-sm text-gray-500">Expected Salary</p>
-                                <p className="font-medium">{app.applicationDetails.expectedSalary}</p>
+                                <p className="text-sm text-black">Expected Salary</p>
+                                <p className="font-medium">{app.expectedSalary}</p>
                               </div>
                               <div>
                                 <p className="text-sm text-gray-500">Notice Period</p>
-                                <p className="font-medium">{app.applicationDetails.noticePeriod}</p>
+                                <p className="font-sm">{app.noticePeriod}</p>
                               </div>
                             </div>
                           </div>
@@ -261,9 +261,9 @@ import { useJobStore } from '@/state/jobStore';
 
                           <div>
                             <h4 className="font-semibold mb-2">Cover Letter</h4>
-                            <p className="text-gray-700">{app.applicationDetails.coverLetter}</p>
+                            <p className="text-gray-700">{app.coverLetter}</p>
                           </div>
-
+                            
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <h4 className="font-semibold mb-2">Resume</h4>
@@ -273,7 +273,7 @@ import { useJobStore } from '@/state/jobStore';
                                 className="w-full"
                               >
                                 <a
-                                  href={app.applicationDetails.resumeUrl}
+                                  // href={app.resumeUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >

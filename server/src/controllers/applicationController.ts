@@ -4,6 +4,9 @@ import { Status } from "@prisma/client";
 import multer from "multer";
 import path from "path";
 import fs from "fs"
+import { WebSocketServer, WebSocket } from "ws"; 
+const wss = new WebSocketServer({ port: 8080 }); 
+
 
 const prisma = new PrismaClient();
 
@@ -74,8 +77,15 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
                 }
             });
             return { notification, application };
-        })
-        console.log("File uploaded successfully:", req.file);
+        });
+
+        //ws part
+        wss.clients.forEach((client:WebSocket) => {
+            if(client.readyState === 1) {
+                client.send(JSON.stringify({type: "New Application", data:application}));
+            }
+        });
+
         res.status(201).json({
             message: "Application successfully created",
             application,

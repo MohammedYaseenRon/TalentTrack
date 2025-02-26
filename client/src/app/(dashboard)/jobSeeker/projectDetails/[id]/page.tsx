@@ -27,11 +27,11 @@ const ProjectDetails = () => {
   const [imageError, setImageError] = useState(false);
 
   // Generate a consistent placeholder based on project name
-  const getPlaceholderUrl = () => {
-    if (!project) return `/api/placeholder/800/600`;
-    const seed = encodeURIComponent(project.name.toLowerCase().replace(/\s+/g, '-'));
-    return `https://picsum.photos/seed/${seed}/800/600`;
-  };
+  // const getPlaceholderUrl = () => {
+  //   if (!project) return `/api/placeholder/800/600`;
+  //   const seed = encodeURIComponent(project.name.toLowerCase().replace(/\s+/g, '-'));
+  //   return `https://picsum.photos/seed/${seed}/800/600`;
+  // };
 
   // const getImageUrl = () => {
   //   if (project?.images && project.images.length > 0 && !imageError) {
@@ -85,7 +85,7 @@ const ProjectDetails = () => {
 
             {/* Project Image Section */}
             <div className="p-6">
-              <div className="rounded-xl overflow-hidden shadow-lg relative h-[400px]">
+              <div className="rounded-xl overflow-hidden shadow-lg">
                 {project.images?.length > 0 && (
                   <Image
                     src={project.images[0].url}

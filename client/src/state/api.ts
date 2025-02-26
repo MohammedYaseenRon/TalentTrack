@@ -19,6 +19,10 @@ export interface ApplicationProps {
     status: string
     appliedAt: string
     jobId: number
+    resumeUrl: File | null,
+    coverLetter: string,
+    expectedSalary: string,
+    noticePeriod: string,
     applicationDetails: ApplicationsForm
   }
 export interface Application {
@@ -70,10 +74,6 @@ export interface Education {
     graduationYear: string
 }
 export interface ApplicationsForm {
-    resumeUrl: File | null,
-    coverLetter: string,
-    expectedSalary: string,
-    noticePeriod: string,
     education: Education,
     workExperience: {
         companies: Company[]
