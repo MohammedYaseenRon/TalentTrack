@@ -3,7 +3,7 @@
 import axios from 'axios';
 import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Github, ImportIcon } from 'lucide-react'; // Assuming you're using react-feather for icons
+import { ExternalLink, Github, ImportIcon, Star } from 'lucide-react'; // Assuming you're using react-feather for icons
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from '@/components/ui/select';
 import { ProjectImage } from '@/components/ProjectsCard';
+import toast from 'react-hot-toast';
 
 interface ProjectCardProps {
   id: number;
@@ -23,7 +24,9 @@ interface ProjectCardProps {
   sourcecode: string;
   images: { url: string; type: string }[];
   tags: { id: number; name: string }[];
+  rating?: number
 }
+
 
 
 
@@ -36,6 +39,9 @@ export default function CandidatesProjects() {
   const [selectedTechStack, setSelectedTechStack] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const projectRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  
+
+
 
 
   const getAllTechStacks = () => {
@@ -103,6 +109,8 @@ export default function CandidatesProjects() {
   const removeTechStack = (tech: string) => {
     setSelectedTechStack(prev => prev.filter(t => t !== tech));
   };
+
+  
 
 
   return (
@@ -188,7 +196,8 @@ export default function CandidatesProjects() {
                     </div>
                   </Link>
                   {/* <div className="flex flex-wrap gap-2 mb-4"> (Optional tags display logic) </div> */}
-                  <div className="px-4 pb-4 flex justify-end space-x-4">
+                  <div className="px-4 pb-4 flex justify-between space-x-4">
+  
                     <a
                       href={project.livedemo}
                       className="text-indigo-500 hover:text-indigo-600 transition-colors duration-300"

@@ -54,8 +54,8 @@ export default function Applications() {
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <div className="ml-4 space-y-2">
-                            <p className="text-sm font-medium leading-none">{application.user.name}</p>
-                            <p className="text-sm text-muted-foreground">{application.user.email}</p>
+                            <p className="text-sm font-medium leading-none">{application.user?.name}</p>
+                            <p className="text-sm text-muted-foreground">{application.user?.email}</p>
                         </div>
                     </div>
                     <div className="font-medium mb-4">

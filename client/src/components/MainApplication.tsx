@@ -1,6 +1,6 @@
 import type React from "react"
 import { useState } from "react"
-import type { ApplicationsForm } from "@/state/api"
+import type { ApplicationProps } from "@/state/api"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { ModalProps } from "@/state/api"
 import Modal from "./Modal"
@@ -31,7 +31,7 @@ interface CustomJwtPayload {
 export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClose, name, job }) => {
   if (!isOpen) return null
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formData, setFormData] = useState<ApplicationsForm>({
+  const [formData, setFormData] = useState<ApplicationProps>({
     resumeUrl: null,
     coverLetter: "",
     noticePeriod: "",

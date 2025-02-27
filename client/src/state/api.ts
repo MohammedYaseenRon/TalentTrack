@@ -10,32 +10,27 @@ export interface ModalProps {
 
 }
 export interface ApplicationProps {
-    id: number
-    user: {
+    id?: number
+    user?: {
       id: number
       name: string
       email: string
     }
-    status: string
-    appliedAt: string
-    jobId: number
+    status?: string
+    appliedAt?: string
+    jobId?: number
     resumeUrl: File | null,
     coverLetter: string,
     expectedSalary: string,
     noticePeriod: string,
-    applicationDetails: ApplicationsForm
+    education: Education,
+    workExperience: {
+        companies: Company[]
+    }
+    skills: string[],
+    additionalInfo: string
   }
-export interface Application {
-    id: number;
-    user: {
-        id: number;
-        name: string;
-        email: string;
-    };
-    job: {
-        title: string;
-    };
-}
+
 interface ApplicationData {
     id: number;
     user: {

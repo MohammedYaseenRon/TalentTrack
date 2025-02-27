@@ -3,9 +3,12 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { Github, Globe, Tags } from 'lucide-react';
+import { Github, Globe, Star, Tags } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
+import { jwtDecode } from 'jwt-decode';
 
 
 
@@ -17,7 +20,15 @@ interface ProjectDetails {
   livedemo: string;
   sourcecode: string;
   images: { url: string; type: string }[];
+  rating?: number
 }
+
+interface CustomJwtPayload {
+  userId?: string // `userId` is optional, so TypeScript won't throw an error if it's missing
+  role: string
+  exp?: number // Add the exp property as an optional number
+}
+
 
 
 const projectDetails = () => {
@@ -28,6 +39,100 @@ const projectDetails = () => {
   const [error, setError] = useState<string | null>(null);
   const [activeImage, setActiveImage] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [ratings, setRatings] = useState<{ [key: number]: number }>({});
+  const [submittedRatings, setSubmittedRatings] = useState<{ [key: number]: boolean }>({})
+
+  interface CustomJwtPayload {
+    userId?: string // `userId` is optional, so TypeScript won't throw an error if it's missing
+    role: string
+    exp?: number // Add the exp property as an optional number
+  }
+
+  // Handle star click for rating
+  const handleStarClick = (projectId: number, starIndex: number): void => {
+    if (!submittedRatings[projectId]) {
+      setRatings((prev) => ({
+        ...prev,
+        [projectId]: starIndex + 1, // Star index starts at 0, rating at 1
+      }));
+    }
+  };
+
+  //get actual userId
+  const getUserId = () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return null;
+      }
+
+      const decoded: CustomJwtPayload = jwtDecode(token);
+      console.log("✅ Decoded Token:", decoded);
+
+      if (!decoded.userId) {
+        console.error("No userId found in decoded token");
+        return null;
+      }
+      const currentTime = Date.now() / 1000 // Current time in seconds
+      if (decoded.exp && currentTime > decoded.exp) {
+        console.error("Token is expired")
+        return null
+      }
+
+      return decoded.userId
+
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/rating/${id}`);
+        console.log(response.data);
+
+        const ratingsMap = response.data.reduce((acc: any, item: any) => {
+          acc[item.projectId] = item.rating;
+          return acc;
+        }, {} as { [key: number]: number });
+
+        setRatings(ratingsMap);
+      } catch (error) {
+        console.error("Error fetching ratings:", error);
+      }
+    };
+    fetchRatings();
+  }, [id]);
+
+  const handleRatingSubmit = async (projectId: number) => {
+    const rating = ratings[projectId] || 0;
+    if (!rating) return;
+
+    const userId = getUserId()
+    console.log(userId)
+    if (!userId) {
+      toast.error("Authentication token required")
+      return
+    }
+
+    try {
+      const response = await axios.post("http://localhost:4000/rating", {
+        rating,
+        projectId,
+        userId: userId
+      });
+      console.log("Rating submitted:", response.data);
+      setSubmittedRatings((prev) => ({ ...prev, [projectId]: true }))
+      toast.success("You've successfully rated projects");
+    } catch (error) {
+      toast.error("Error while rating projects or you have rated this project once");
+      console.log("Error while creating Rating", error);
+    }
+  }
 
 
   useEffect(() => {
@@ -139,6 +244,31 @@ const projectDetails = () => {
                   </p>
                 </CardContent>
               </Card>
+            </div>
+            <div className="flex p-6 ml-4">
+              {Array.from({ length: 5 }, (_, index) => (
+                <span
+                  key={index}
+                  className={`text-2xl cursor-pointer ${index <
+                    (ratings[project.id] ?? project.rating ?? 0)
+                    ? "text-[#F97316]" // Bright Orange
+                    : "text-gray-300"
+                    }`}
+                  onClick={() => handleStarClick(project.id, index+1)}
+                >
+                  <Star size={16} />
+                </span>
+              ))}
+            </div>
+            <div className='p-6'>
+              {!submittedRatings[project.id] && ratings[project.id] > 0 && (
+                <Button
+                  onClick={() => handleRatingSubmit(project.id)}
+                  className="mt-2 text-sm bg-[#F97316] text-white hover:bg-[#EA580C]"
+                >
+                  Submit Rating
+                </Button>
+              )}
             </div>
           </div>
         </div>
