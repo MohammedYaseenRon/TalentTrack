@@ -10,6 +10,7 @@ interface JobStore {
   fetchingApplications: boolean
   error: string | null
   fetchJobs: () => Promise<void>
+  deleteJob: (jobId: number) => Promise<void>;
   fetchApplications: (jobId: number) => Promise<void>
   updateApplicationStatus: (applicationId: number, newStatus: string) => Promise<void>
   setSelectedJobId: (jobId: number | null) => void
@@ -31,6 +32,19 @@ export const useJobStore = create<JobStore>((set) => ({
     } catch (error) {
       console.error("Error while fetching Jobs", error)
       set({ error: "Failed to fetch jobs", loading: false })
+    }
+  },
+
+  deleteJob: async (jobId: number) => {
+    try {
+      const response = await axios.delete(`http://localhost:4000/jobs/${jobId}`);
+      set((state) => ({
+        jobs: state.jobs.filter((job) => job.id !== jobId),
+      })); 
+      // console.log("Delete this job", jobId);
+      console.log(response.data);
+    } catch (error) {
+      console.log("Error while deleting Jobs");
     }
   },
 

@@ -4,8 +4,8 @@ import { Status } from "@prisma/client";
 import multer from "multer";
 import path from "path";
 import fs from "fs"
-import { WebSocketServer, WebSocket } from "ws"; 
-const wss = new WebSocketServer({ port: 8080 }); 
+import { WebSocketServer, WebSocket } from "ws";
+const wss = new WebSocketServer({ port: 8080 });
 
 
 const prisma = new PrismaClient();
@@ -25,8 +25,8 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
         });
 
         const userId = req.user?.id;
-        if(!userId) {
-            res.status(400).json({message: "Unauthoreized: No user Id found in request"});
+        if (!userId) {
+            res.status(400).json({ message: "Unauthoreized: No user Id found in request" });
             return;
         }
 
@@ -80,9 +80,12 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
         });
 
         //ws part
-        wss.clients.forEach((client:WebSocket) => {
-            if(client.readyState === 1) {
-                client.send(JSON.stringify({type: "New Application", data:application}));
+        wss.clients.forEach((client: WebSocket) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    type: "NEW_APPLICATION", // Match frontend expectation
+                    data: application,
+                }));
             }
         });
 

@@ -22,7 +22,7 @@ export interface ApplicationProps {
     resumeUrl: File | null,
     coverLetter: string,
     expectedSalary: string,
-    noticePeriod: string,
+    noticePeriod: string,   
     education: Education,
     workExperience: {
         companies: Company[]

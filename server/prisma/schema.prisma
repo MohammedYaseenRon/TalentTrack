@@ -114,7 +114,7 @@ model Job {
 model Application {
   id                 Int                @id @default(autoincrement())
   jobId              Int
-  job                Job                @relation(fields: [jobId], references: [id])
+  job                Job                @relation(fields: [jobId], references: [id], onDelete: Cascade)
   userId             Int
   user               User               @relation(fields: [userId], references: [id])
   status             Status             @default(PENDING  ) //accept,reject,pending
@@ -130,7 +130,7 @@ model Application {
 model ApplicationDetail {
   id             Int         @id @default(autoincrement())
   applicationId  Int         @unique
-  application    Application @relation(fields: [applicationId], references: [id])
+  application    Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   education      Json
   workExperience Json
   skills         String[]

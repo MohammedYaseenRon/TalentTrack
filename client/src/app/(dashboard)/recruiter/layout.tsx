@@ -11,8 +11,8 @@ interface RecruiterlayoutProps {
 const recruiterMenuItems = [
     { icon: "LayoutDashboard", label: 'Dashboard', href: "/recruiter" },
     { icon: "Users", label: 'Candidates', href: "/recruiter/candidates" },
-    { icon: "Calendar", label: 'Interviews', href: "/recruiter/interview" },
     { icon: "FileText", label: 'Job Offers', href: "/recruiter/jobOffer" },
+    { icon: "Calendar", label: 'Interviews', href: "/recruiter/interview" },
     { icon: "Mail", label: 'Messages', href: "/recruiter/messages" },
     { icon: "Settings", label: 'Settings', href: "/recruiter/settings" },
 ];
