@@ -12,9 +12,9 @@ export interface ModalProps {
 export interface ApplicationProps {
     id?: number
     user?: {
-      id: number
-      name: string
-      email: string
+        id: number
+        name: string
+        email: string
     }
     status?: string
     appliedAt?: string
@@ -22,14 +22,14 @@ export interface ApplicationProps {
     resumeUrl: File | null,
     coverLetter: string,
     expectedSalary: string,
-    noticePeriod: string,   
+    noticePeriod: string,
     education: Education,
     workExperience: {
         companies: Company[]
     }
     skills: string[],
     additionalInfo: string
-  }
+}
 
 interface ApplicationData {
     id: number;
@@ -75,5 +75,53 @@ export interface ApplicationsForm {
     }
     skills: string[],
     additionalInfo: string
+}
+export interface AnalysisResponse {
+    message: string;
+    fileName: string;
+    analysis: string; // The actual analysis text
+    saveAnalysis: boolean;
+}
+
+export interface ResumeAnalysis {
+    personal_information: {
+        details: string;
+        missing: string[];
+        suggestions: string;
+    },
+    summary_analysis: {
+        assessment: string,
+        suggestions: string
+    },
+    work_experience: {
+        evaluation: string,
+        achievements: string,
+        suggestions: string
+    },
+    skills_technologies: {
+        technical_skills: string[],
+        soft_skills: string[],
+        suggestions: string,
+
+    },
+    education_certifications: {
+        details: string,
+        relevance: string,
+        suggestions: string
+    },
+    projects_contributions: {
+        analysis: string,
+        suggestions: string
+    },
+    ats_compatibility: {
+        formatting: string,
+        keywords: string,
+        readability: string,
+        suggestions: string
+    },
+    final_evaluation: {
+        score: number,
+        summary: string
+    }
 }
 

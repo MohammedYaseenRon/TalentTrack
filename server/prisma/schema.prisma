@@ -14,23 +14,23 @@ datasource db {
 }
 
 //user modal
-  model User {
-    id           Int            @id @default(autoincrement())
-    name         String
-    email        String         @unique
-    password     String
-    role         Role
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
-    project      Project[] //One-to-many relationship with projects
-    rating       Rating[]
-    comment      Comment[]
-    notification Notification[]
-    job          Job[]
-    application  Application[]
-    interviewslot  InterviewSlot[]
-    
-  }
+model User {
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  role          Role
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  project       Project[] //One-to-many relationship with projects
+  rating        Rating[]
+  comment       Comment[]
+  notification  Notification[]
+  job           Job[]
+  application   Application[]
+  interviewslot InterviewSlot[]
+  resume        ResumeAnalysis[]
+}
 
 //project modal
 model Project {
@@ -117,7 +117,7 @@ model Application {
   job                Job                @relation(fields: [jobId], references: [id], onDelete: Cascade)
   userId             Int
   user               User               @relation(fields: [userId], references: [id])
-  status             Status             @default(PENDING  ) //accept,reject,pending
+  status             Status             @default(PENDING) //accept,reject,pending
   appliedAt          DateTime           @default(now())
   resumeUrl          String
   coverLetter        String             @db.Text
@@ -138,15 +138,16 @@ model ApplicationDetail {
 }
 
 model InterviewSlot {
-  id           Int       @id @default(autoincrement())
-  startTime    DateTime
-  endTime      DateTime
-  recruiterId  Int
-  recruiter    User      @relation(fields: [recruiterId], references: [id])
-  isBooked     Boolean   @default(false)
-  interviewId  Int?      @unique
-  interview    Interview? @relation(fields: [interviewId], references: [id])
+  id          Int        @id @default(autoincrement())
+  startTime   DateTime
+  endTime     DateTime
+  recruiterId Int
+  recruiter   User       @relation(fields: [recruiterId], references: [id])
+  isBooked    Boolean    @default(false)
+  interviewId Int?       @unique
+  interview   Interview? @relation(fields: [interviewId], references: [id])
 }
+
 model Interview {
   id              Int               @id @default(autoincrement())
   applicationId   Int               @unique
@@ -157,6 +158,15 @@ model Interview {
   notes           String?           @db.Text
   outcome         InterviewOutcome?
   slot            InterviewSlot?
+}
+
+model ResumeAnalysis {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId],references: [id])
+  fileName  String
+  analysis  Json
+  analyzedAt DateTime
 }
 
 enum Status {
