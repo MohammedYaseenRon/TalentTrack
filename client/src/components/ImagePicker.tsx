@@ -1,19 +1,10 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { File as FileIcon, X } from 'lucide-react';
-import { Label } from './ui/label';
+import { X } from 'lucide-react';
 import { Input } from './ui/input';
+import Image from 'next/image';
 
-interface ProjectProps {
-    projectName: string;
-    projectDescription: string;
-    techStack: string;
-    livedemo: string;    
-    sourcecode: string;    
-    tags: string[];
-    images: string[]   
-}
 
 interface ImagePickerProps {
     onImageSelected?: (files: File[]) => void;
@@ -103,7 +94,7 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
                 <div className="flex gap-2 mt-2">
                     {previews.map((preview, index) => (
                         <div key={index} className="relative">
-                            <img 
+                            <Image 
                                 src={preview} 
                                 alt={`Preview ${index + 1}`} 
                                 className="w-20 h-20 object-cover rounded"

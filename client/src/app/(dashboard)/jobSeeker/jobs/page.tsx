@@ -42,7 +42,7 @@ const JobPage = () => {
                 setSelectedJobs(response.data);
                 setLoading(false)
             } catch (error) {
-                console.log("Error no projects found");
+                console.log("Error no projects found",error);
                 setLoading(false);
             }
         }

@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from 'react'
 import Logo from './Logo'
-import { Bell, HomeIcon, User2 } from 'lucide-react'
-import { Button } from './ui/button'
-import Link from 'next/link'
+import { Bell, User2 } from 'lucide-react'
 import Profilepage from './Profilepage'
 
 

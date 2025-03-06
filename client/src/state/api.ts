@@ -10,7 +10,7 @@ export interface ModalProps {
 
 }
 export interface ApplicationProps {
-    id?: number
+    id: number
     user?: {
         id: number
         name: string
@@ -130,4 +130,33 @@ export interface ResumeAnalysis {
         summary: string
     }
 }
+
+export interface Profile {
+    id: number;
+    name: string;
+    email: string;
+  }
+  
+  export interface ProfileProject {
+    id: number;
+    name: string;
+    createdAt: string;
+  }
+
+
+  interface User {
+    name: string;
+    email: string;
+}
+
+interface JobApplication {
+    id: number;
+    user: User;
+}
+
+export interface WebSocketMessage {
+    type: "NEW_APPLICATION";
+    data: JobApplication;
+}
+
 

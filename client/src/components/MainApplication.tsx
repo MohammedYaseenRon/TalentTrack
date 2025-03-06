@@ -1,7 +1,6 @@
-import type React from "react"
-import { useState } from "react"
+import React,{useState} from "react"
 import type { ApplicationProps } from "@/state/api"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Card, CardContent } from "./ui/card"
 import Modal from "./Modal"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
@@ -27,16 +26,15 @@ interface CustomJwtPayload {
 }
 
 export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClose, name, job }) => {
-  if (!isOpen) return null
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<ApplicationProps>({
+    id:1,
     resumeUrl: null,
     coverLetter: "",
     noticePeriod: "",
     expectedSalary: "",
     applicationDetails: { 
       id:0,
-      applicationId:0, // ✅ Wrap fields inside applicationDetails
+      applicationId:0, 
       education: {
         degree: "",
         university: "",
@@ -54,7 +52,9 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       skills: [],
       additionalInfo: "",
     },
-  })
+  });
+  if (!isOpen) return null
+
 
   const getUserId = () => {
     try {
@@ -114,7 +114,6 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
 
     const userId = getUserId()
     if (!userId) {
@@ -144,7 +143,6 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       !additionalInfo?.trim()
     ) {
       toast.error("All fields are required for submitting the application.")
-      setIsSubmitting(false)
       return
     }
 
@@ -173,6 +171,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       toast.success("Application created successfully.")
       onClose()
       setFormData({
+        id:1,
         resumeUrl: null,
         coverLetter: "",
         noticePeriod: "",
@@ -201,8 +200,6 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
     } catch (error) {
       console.error("Error while creating application:", error)
       toast.error("Failed to create application. Please try again.")
-    } finally {
-      setIsSubmitting(false)
     }
   }
 

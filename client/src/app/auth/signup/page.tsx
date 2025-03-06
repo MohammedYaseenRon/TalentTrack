@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 import axios from "axios";
-import Link from "next/link";
 
 
 
@@ -81,11 +80,14 @@ export default function Signup() {
             } else if (user.role === "JOB_SEEKER") {
                 router.push("/jobSeeker")
             }
-        } catch (error: any) {
-            console.error("Error during signup", error);
-            setErrors([error.response?.data?.message || "Something went wrong!"]);
-        } finally {
-            setLoading(false);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Error during signup", error.message);
+                setErrors([error.message]);
+            } else {
+                console.error("Error during signup", error);
+                setErrors(["Something went wrong!"]);
+            }
         }
 
     }

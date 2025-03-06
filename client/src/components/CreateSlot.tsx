@@ -20,7 +20,6 @@ export default function CreateSlot({ onSlotCreated }: { onSlotCreated: () => voi
     const [startTime, setStartTime] = useState(" ");
     const [endTime, setEndTime] = useState("");
     const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const validateSlotTimes = (start: Date, end: Date) => {
         const now = new Date();
@@ -71,7 +70,6 @@ export default function CreateSlot({ onSlotCreated }: { onSlotCreated: () => voi
         if (!validateSlotTimes(startDate, endDate)) {
             return;
         }
-        setLoading(true);
 
         try {
             const response = await axios.post("http://localhost:4000/interview/slots", {
@@ -95,7 +93,7 @@ export default function CreateSlot({ onSlotCreated }: { onSlotCreated: () => voi
             }
 
         } catch (error) {
-            console.error("Failed to create a slot");
+            console.error("Failed to create a slot",error);
             toast.error("Error while creating slot")
         }
     }

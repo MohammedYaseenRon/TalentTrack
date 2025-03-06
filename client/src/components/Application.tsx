@@ -2,9 +2,15 @@ import React, { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "./ui/button";
 import { useJobStore } from "@/state/jobStore";
-import { ArrowRight, User } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ApplicationProps } from "@/state/api";
 
+
+interface WebSocketMessage {
+    type: string;
+    data: ApplicationProps; // or use a more specific type instead of `any`
+}
 
 export default function Applications() {
     const { applications, fetchApplications, selectedJobId } = useJobStore();
@@ -22,7 +28,7 @@ export default function Applications() {
 
         ws.onmessage = (event: MessageEvent) => {
             try {
-                const message: { type: string; data: any } = JSON.parse(event.data);
+                const message:WebSocketMessage = JSON.parse(event.data);
 
                 if (message.type === "NEW_APPLICATION") {
                     useJobStore.setState((state) => ({

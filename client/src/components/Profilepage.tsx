@@ -4,20 +4,13 @@ import { ModalProps } from '@/state/api';
 import { LogOut, User2, FolderKanban } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-
-interface Profile {
-    id: number;
-    name: string;
-    email: string;
-  }
-  
-  
+import { Profile,ProfileProject } from '@/state/api';
+    
 
 const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, height }) => {
     const router = useRouter();
     const [profile, setProfile] = useState<Profile | null>(null);
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [projects, setProjects] = useState<ProfileProject[]>([]);
 
 
     useEffect(() => {
@@ -40,7 +33,6 @@ const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, 
                 const user = response.data;
                 setProfile(user);
                 setProjects(user.project || []);
-                setLoading(false);
 
             } catch (error) {
                 console.error("Error fetching user data", error);
@@ -50,11 +42,6 @@ const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, 
         fetchProfileDetails();
     }, [])
 
-    // const projects = [
-    //     { id: 1, name: "Project Alpha", date: "2024-01-15" },
-    //     { id: 2, name: "Project Beta", date: "2024-01-10" },
-    //     { id: 3, name: "Project Gamma", date: "2024-01-05" },
-    // ];
 
     const handleLogout = () => {
         router.push("/")
@@ -84,7 +71,7 @@ const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, 
                     </div>
                     <div className="space-y-1">
                         {projects.length > 0 ? (
-                            projects.map((project: any) => (
+                            projects.map((project) => (
                                 <div
                                     key={project.id}
                                     className="flex justify-between items-center py-2 px-3 hover:bg-gray-50 rounded-md transition-colors"

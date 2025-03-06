@@ -37,8 +37,8 @@ const ProjectDetails = () => {
         setProject(response.data);
 
         setLoading(false);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error) {
+        setError("An unknown error occured");
         console.error("Error while fetching project details:", error);
         setLoading(false);
       }

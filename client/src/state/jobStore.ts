@@ -44,7 +44,9 @@ export const useJobStore = create<JobStore>((set) => ({
       // console.log("Delete this job", jobId);
       console.log(response.data);
     } catch (error) {
-      console.log("Error while deleting Jobs");
+      console.log("Error while deleting Jobs",error);
+      set({ error: "Failed to delete job" });
+
     }
   },
 

@@ -69,6 +69,7 @@ export default function CandidatesProjects() {
         setProjects(response.data);
         setLoading(false);
       } catch (error) {
+        setError("Error while fetching projects");
         console.log("Error while fetching projects", error);
         setLoading(false);
       }

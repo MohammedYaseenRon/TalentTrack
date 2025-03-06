@@ -5,12 +5,17 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import AnimatedGradientText from "@/components/GradientText";
 import Working from "@/components/Working";
-import Information from "@/components/Information";
 import Features from "@/components/Features";
 import Footer from "@/components/Footer";
 import Testimonals from "@/components/Testimonals";
 
-const MotionButton = ({ href, text, bgColor }:any) => (
+interface MotionButtonProps {
+  href: string;
+  text: string;
+  bgColor: string;
+}
+
+const MotionButton = ({ href, text, bgColor }:MotionButtonProps) => (
   <Link href={href}>
     <motion.button
       initial={{ opacity: 0, y: 20 }}

@@ -30,7 +30,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useJobStore } from "@/state/jobStore";
-import axios from "axios";
 const JobOffer = () => {
   const {
     jobs,
@@ -96,7 +95,7 @@ const JobOffer = () => {
     <>
       <div className="p-6">
         <ScrollArea className="flex flex-col h-[calc(100vh-64px)] overflow-y-auto">
-          <h1 className="text-5xl font-bold text-purple-600">Jobs You've Created</h1>
+          <h1 className="text-5xl font-bold text-purple-600">Jobs You&apos;ve Created</h1>
           <p className="text-xl font-bold text-gray-400">
             You can also view applications for specific jobs
           </p>

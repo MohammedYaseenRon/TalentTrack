@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle, Axis3DIcon, Loader2 } from 'lucide-react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 import React, { useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -52,9 +52,9 @@ export default function Login() {
             const response = await axios.post("http://localhost:4000/auth/login", formData, {
                 headers: { "Content-Type": "application/json" },
             })
-            setFormData({password:" ", email:" "})
+            setFormData({ password: " ", email: " " })
             const { token, user } = response.data;
-            
+
 
             localStorage.setItem('token', token);
             if (user.role === "RECRUITER") {
@@ -62,9 +62,9 @@ export default function Login() {
             } else if (user.role === "JOB_SEEKER") {
                 router.push("/jobSeeker")
             }
-        } catch (error: any) {
+        } catch (error) {
             console.error('Login error', error);
-            setErrors(error.response?.data?.message || "Something went wrong!");
+            setErrors("Something went wrong!");
 
         } finally {
             setLoading(false)
@@ -120,7 +120,12 @@ export default function Login() {
                         <Button type="submit" className="w-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-xl py-3 font-semibold hover:from-indigo-600 hover:to-blue-700 transition-all disabled:opacity-50" disabled={loading}>
                             {loading ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : 'Sign In'}
                         </Button>
-                        <p className='text-center text-gray-600 text-sm'>Don't have an account?{" "}<Link href="/auth/signup"><span className="text-blue-600 font-semibold hover:underline"> Signup</span></Link></p>
+                        <p className='text-center text-gray-600 text-sm'>
+                            Don&apos;t have an account?{" "}
+                            <Link href="/auth/signup">
+                                <span className="text-blue-600 font-semibold hover:underline">Signup</span>
+                            </Link>
+                        </p>
                     </form>
 
                 </CardContent>

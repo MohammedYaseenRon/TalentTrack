@@ -23,9 +23,8 @@ interface ProjectProps {
   images: File[]
 }
 
-const CreateProject = ({ isOpen, onClose, name, className }: ModalProps) => {
+const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
   const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState<string | null>(null)
   const [formData, setFormData] = useState<ProjectProps>({
     projectName: "",
     projectDescription: "",
@@ -51,7 +50,6 @@ const CreateProject = ({ isOpen, onClose, name, className }: ModalProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setErrors(null)
 
     const formDataToSend = new FormData()
     formDataToSend.append("name", formData.projectName)
@@ -61,7 +59,7 @@ const CreateProject = ({ isOpen, onClose, name, className }: ModalProps) => {
     formDataToSend.append("sourcecode", formData.sourcecode)
     formDataToSend.append("tags", formData.tags)
 
-    formData.images.forEach((image: File, index: number) => {
+    formData.images.forEach((image: File) => {
       formDataToSend.append(`images`, image)
     })
 

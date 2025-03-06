@@ -64,6 +64,7 @@
             setProjects(response.data);
             setLoading(false);
           } catch (error) {
+            setError('Unkown error while fetching projects')
             console.log("Error while fetching projects", error);
             setLoading(false);
           }

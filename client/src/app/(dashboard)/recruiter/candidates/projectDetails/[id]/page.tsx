@@ -24,7 +24,7 @@ interface ProjectDetails {
 }
 
 
-const projectDetails = () => {
+const ProjectDetails = () => {
 
   const { id } = useParams();  // Get the 'id' from the URL
   const [project, setProject] = useState<ProjectDetails | null>(null);
@@ -54,7 +54,7 @@ const projectDetails = () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found in localStorage");
+        console.error("No token found in localStorage",error);
         return null;
       }
 
@@ -62,12 +62,12 @@ const projectDetails = () => {
       console.log("✅ Decoded Token:", decoded);
 
       if (!decoded.userId) {
-        console.error("No userId found in decoded token");
+        console.error("No userId found in decoded token",error);
         return null;
       }
       const currentTime = Date.now() / 1000 // Current time in seconds
       if (decoded.exp && currentTime > decoded.exp) {
-        console.error("Token is expired")
+        console.error("Token is expired",error)
         return null
       }
 
@@ -86,13 +86,14 @@ const projectDetails = () => {
         const response = await axios.get(`http://localhost:4000/rating/${id}`);
         console.log(response.data);
 
-        const ratingsMap = response.data.reduce((acc: any, item: any) => {
+        const ratingsMap = response.data.reduce((acc: {[key: number]:number }, item: { projectId: number; rating: number }) => {
           acc[item.projectId] = item.rating;
           return acc;
         }, {} as { [key: number]: number });
 
         setRatings(ratingsMap);
       } catch (error) {
+        setError("Error fetching rating");
         console.error("Error fetching ratings:", error);
       }
     };
@@ -137,9 +138,8 @@ const projectDetails = () => {
         setProject(response.data)
         setLoading(false);
 
-      } catch (error: any) {
-        setError(error.message)
-        console.log("Error while updating project details");
+      } catch (error) {
+        console.log("Error while updating project details",error);
         setLoading(false);
       }
     };
@@ -270,4 +270,4 @@ const projectDetails = () => {
 }
 
 
-export default projectDetails;
+export default ProjectDetails;

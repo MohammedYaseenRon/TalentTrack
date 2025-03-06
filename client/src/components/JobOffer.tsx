@@ -11,7 +11,7 @@ import { Button } from './ui/button';
 import { JobOfferProps } from '@/state/api';
 
 
-const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
+const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose}) => {
     const [formData, setFormData] = useState<JobOfferProps>({
         id:1,
         title: "",
@@ -21,10 +21,6 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
         location: "",
         deadline: ""
     })
-    const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<string | null>(null);
-    const [inputValue, setInputValue] = useState("");
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }))
@@ -33,8 +29,6 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose, name, width}) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrors(null)
-        setLoading(true)
 
         const { title, description, skills,salary,location, deadline } = formData;
 

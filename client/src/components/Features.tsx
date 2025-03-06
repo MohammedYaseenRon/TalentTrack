@@ -1,6 +1,6 @@
 import React from "react";
 import FeatureCard from "./featureCard";
-import { Star, Upload, Search, ThumbsUp, Users } from 'lucide-react'
+import { Star, Upload, Search } from 'lucide-react'
 
 
 export default function Features() {
