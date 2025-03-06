@@ -2,8 +2,7 @@
 
     import axios from 'axios';
     import React, { useEffect, useState, useRef } from 'react';
-    import Image from 'next/image';
-    import { ExternalLink, Github, ImportIcon } from 'lucide-react'; // Assuming you're using react-feather for icons
+    import { ExternalLink, Github } from 'lucide-react'; // Assuming you're using react-feather for icons
     import { ScrollArea } from '@/components/ui/scroll-area';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
@@ -35,7 +34,6 @@
       const [error, setError] = useState("");
       const [searchQuery, setSearchQuery] = useState("");
       const [selectedTechStack, setSelectedTechStack] = useState<string[]>([]);
-      const [tags, setTags] = useState<string[]>([]);
       const projectRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
 

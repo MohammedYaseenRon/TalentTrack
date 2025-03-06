@@ -1,9 +1,7 @@
 "use client";
-import React,{useState} from 'react'
+import React from 'react'
 import { Button } from './ui/button'
-import Image from 'next/image';
 import { User } from 'lucide-react';
-import Link from 'next/link';
 import Logo from './Logo';
 
 const Navbar = () => {

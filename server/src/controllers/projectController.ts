@@ -31,13 +31,9 @@ export const createProject = async (
         ? tags.split(',').map((tag: string) => ({ name: tag.trim() }))
         : Array.isArray(tags) ? tags.map((tag: any) => (typeof tag === "string" ? { name: tag.trim() } : tag)) : [];
 
-    console.log("Normalized Tags:", normalizedTags);
-
-    console.log(normalizedTags);
     const normalizedTechStack = Array.isArray(techStack) ? techStack : (typeof techStack === 'string' ? techStack.split(',').map((item: string) => item.trim()) : []);
     const files = req.files as Express.Multer.File[]; // Fix: Use req.files
 
-    console.log(normalizedTags);
 
     try {
         const uploadImages = files.map((file) => ({

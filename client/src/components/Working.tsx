@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { FileText, Megaphone, Eye, Calendar, User, Settings, Search, Handshake } from "lucide-react";
 
 interface Step {
@@ -57,11 +56,6 @@ const jobSeekerSteps: Step[] = [
     }
 ];
 
-const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-};
-
 const drawLine = {
     hidden: { pathLength: 0 },
     visible: {
@@ -99,7 +93,6 @@ const contentVariants = {
 
 export default function Working() {
     const [activeTab, setActiveTab] = useState('recruiter');
-    const steps = activeTab === 'recruiter' ? recruiterSteps : jobSeekerSteps;
 
     return (
         <div className="bg-[#F8F1F1] py-16 px-4 sm:px-6 lg:px-8 rounded-xl shadow-sm">

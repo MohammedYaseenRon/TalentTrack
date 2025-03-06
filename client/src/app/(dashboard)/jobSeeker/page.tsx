@@ -2,13 +2,12 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, CheckCircle, File, Folder, Users } from 'lucide-react';
+import { CheckCircle, File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CreateProject from '@/components/CreateProject';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
-import content from '@/components/content';
 import { AnalysisResponse, ResumeAnalysis } from '@/state/api';
 import ResumeAnalysisSkeleton from '@/components/ResumeSkeleton';
 
@@ -64,7 +63,7 @@ export default function JobSeeker() {
           setError("Failed to parse the resume analysis data");
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error analyzing resume:", error);
       setError("Failed to analyze the resume");
     } finally {

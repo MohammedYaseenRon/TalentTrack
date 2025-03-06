@@ -23,22 +23,6 @@ const ProjectDetails = () => {
   const [project, setProject] = useState<ProjectDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeImage, setActiveImage] = useState(0);
-  const [imageError, setImageError] = useState(false);
-
-  // Generate a consistent placeholder based on project name
-  // const getPlaceholderUrl = () => {
-  //   if (!project) return `/api/placeholder/800/600`;
-  //   const seed = encodeURIComponent(project.name.toLowerCase().replace(/\s+/g, '-'));
-  //   return `https://picsum.photos/seed/${seed}/800/600`;
-  // };
-
-  // const getImageUrl = () => {
-  //   if (project?.images && project.images.length > 0 && !imageError) {
-  //     return project.images[activeImage].url;
-  //   }
-  //   return getPlaceholderUrl();
-  // };
 
   useEffect(() => {
     if (!id) return;
@@ -63,10 +47,10 @@ const ProjectDetails = () => {
     fetchProjectDetails();
   }, [id]);
 
-  // Reset image error state when active image changes
-  useEffect(() => {
-    setImageError(false);
-  }, [activeImage]);
+  // // Reset image error state when active image changes
+  // useEffect(() => {
+  //   setImageError(false);
+  // }, [activeImage]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;

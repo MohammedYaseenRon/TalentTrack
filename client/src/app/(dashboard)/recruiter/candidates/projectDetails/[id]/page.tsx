@@ -3,7 +3,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { Github, Globe, Star, Tags } from 'lucide-react';
+import { Github, Globe, Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import toast from 'react-hot-toast';
@@ -23,13 +23,6 @@ interface ProjectDetails {
   rating?: number
 }
 
-interface CustomJwtPayload {
-  userId?: string // `userId` is optional, so TypeScript won't throw an error if it's missing
-  role: string
-  exp?: number // Add the exp property as an optional number
-}
-
-
 
 const projectDetails = () => {
 
@@ -37,8 +30,6 @@ const projectDetails = () => {
   const [project, setProject] = useState<ProjectDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeImage, setActiveImage] = useState(0);
-  const [imageError, setImageError] = useState(false);
   const [ratings, setRatings] = useState<{ [key: number]: number }>({});
   const [submittedRatings, setSubmittedRatings] = useState<{ [key: number]: boolean }>({})
 

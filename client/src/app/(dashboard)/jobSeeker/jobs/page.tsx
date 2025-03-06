@@ -1,6 +1,6 @@
 "use client";
 
-import { ApplicationsForm, JobOfferProps } from '@/state/api'
+import { JobOfferProps } from '@/state/api'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -15,7 +15,6 @@ import { MainApplication } from '@/components/MainApplication';
 const JobPage = () => {
     const [selectedJobs, setSelectedJobs] = useState<JobOfferProps[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedJob, setSelectedJob] = useState<JobOfferProps | null>(null);
 
@@ -52,7 +51,6 @@ const JobPage = () => {
 
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
 
     return (
         <>

@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 import { ModalProps } from '@/state/api';
-import { LogOut, User2, FolderKanban, Router } from 'lucide-react';
+import { LogOut, User2, FolderKanban } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+interface Profile {
+    id: number;
+    name: string;
+    email: string;
+  }
+  
+  
+
 const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, height }) => {
     const router = useRouter();
-    const [profile, setProfile] = useState<any>(null);
+    const [profile, setProfile] = useState<Profile | null>(null);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
 
     useEffect(() => {

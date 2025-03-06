@@ -23,7 +23,7 @@ export const TestimonialCard: React.FC<TestimonialProps> = ({ rating, name, role
                 ))}
             </div>
             <div className="text-start">
-                <p className="italic text-gray-600 mt-3">"{feedback}"</p>
+                <p className="italic text-gray-600 mt-3">&quot;{feedback}&quot;</p>
                 <h3 className="text-lg font-semibold mt-8">{name}</h3>
                 <p className="text-sm font-bold text-gray-500 ">{role}</p>
             </div>

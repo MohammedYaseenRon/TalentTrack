@@ -2,9 +2,7 @@ import type React from "react"
 import { useState } from "react"
 import type { ApplicationProps } from "@/state/api"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import { ModalProps } from "@/state/api"
 import Modal from "./Modal"
-import { Apple, University } from "lucide-react"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
@@ -36,22 +34,26 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
     coverLetter: "",
     noticePeriod: "",
     expectedSalary: "",
-    education: {
-      degree: "",
-      university: "",
-      graduationYear: "",
+    applicationDetails: { 
+      id:0,
+      applicationId:0, // ✅ Wrap fields inside applicationDetails
+      education: {
+        degree: "",
+        university: "",
+        graduationYear: "",
+      },
+      workExperience: {
+        companies: [
+          {
+            name: "",
+            position: "",
+            duration: "",
+          },
+        ],
+      },
+      skills: [],
+      additionalInfo: "",
     },
-    workExperience: {
-      companies: [
-        {
-          name: "",
-          position: "",
-          duration: "",
-        },
-      ],
-    },
-    skills: [],
-    additionalInfo: "",
   })
 
   const getUserId = () => {
@@ -93,14 +95,19 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
     }
   }
 
+
   const handleWorkExperienceChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
-      workExperience: {
-        companies: prev.workExperience.companies.map((company, i) =>
-          i === index ? { ...company, [name]: value } : company,
-        ),
+      applicationDetails: {
+        ...prev.applicationDetails!,
+        workExperience: {
+          companies:
+            prev.applicationDetails?.workExperience?.companies.map((company, i) =>
+              i === index ? { ...company, [name]: value } : company,
+            ) || [],
+        },
       },
     }))
   }
@@ -108,15 +115,17 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-  
+
     const userId = getUserId()
     if (!userId) {
       toast.error("Authentication token required")
       return
     }
-  
-    const { resumeUrl, coverLetter, noticePeriod, expectedSalary, education, workExperience, skills, additionalInfo } = formData
-  
+
+    const { resumeUrl, coverLetter, noticePeriod, expectedSalary, applicationDetails } = formData
+    const { education, workExperience, skills, additionalInfo } = applicationDetails || {};
+
+
     if (
       !job ||
       !job.id ||
@@ -125,20 +134,20 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       !coverLetter.trim() ||
       !noticePeriod.trim() ||
       !expectedSalary.trim() ||
-      !education.degree.trim() ||
-      !education.university.trim() ||
-      !education.graduationYear ||
-      workExperience.companies.some(
+      !education?.degree.trim() ||
+      !education?.university.trim() ||
+      !education?.graduationYear ||
+      workExperience?.companies.some(
         (company) => !company.name.trim() || !company.position.trim() || !company.duration.trim()
       ) ||
-      skills.length === 0 ||
-      !additionalInfo.trim()
+      skills?.length === 0 ||
+      !additionalInfo?.trim()
     ) {
       toast.error("All fields are required for submitting the application.")
       setIsSubmitting(false)
       return
     }
-  
+
     try {
       const formDataToSend = new FormData()
       formDataToSend.append('jobId', job.id.toString())
@@ -151,7 +160,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       formDataToSend.append('skills', JSON.stringify(skills))
       formDataToSend.append('additionalInfo', additionalInfo)
       formDataToSend.append('resume', resumeUrl)
-  
+
       const token = localStorage.getItem("token")
       const response = await axios.post("http://localhost:4000/application", formDataToSend, {
         headers: {
@@ -160,7 +169,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
         },
       })
       console.log(response.data);
-  
+
       toast.success("Application created successfully.")
       onClose()
       setFormData({
@@ -168,22 +177,26 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
         coverLetter: "",
         noticePeriod: "",
         expectedSalary: "",
-        education: {
-          degree: "",
-          university: "",
-          graduationYear: "",
-        },
-        workExperience: {
-          companies: [
-            {
-              name: "",
-              position: "",
-              duration: "",
-            },
-          ],
-        },
-        skills: [],
-        additionalInfo: "",
+        applicationDetails: {
+          id:0,
+          applicationId:0,
+          education: {
+            degree: "",
+            university: "",
+            graduationYear: "",
+          },
+          workExperience: {
+            companies: [
+              {
+                name: "",
+                position: "",
+                duration: "",
+              },
+            ],
+          },
+          skills: [],
+          additionalInfo: "",
+        }
       })
     } catch (error) {
       console.error("Error while creating application:", error)
@@ -194,13 +207,13 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
   }
 
   const handleAddSkill = (skill: string) => {
-    if (!formData.skills.includes(skill)) {
-      setFormData((prev) => ({ ...prev, skills: [...prev.skills, skill] }))
+    if (!formData.applicationDetails?.skills?.includes(skill)) {
+      setFormData((prev) => ({ ...prev, skills: [...(prev.applicationDetails?.skills || []), skill] }))
     }
   }
 
   const handleRemoveSkill = (skill: string) => {
-    setFormData((prev) => ({ ...prev, skills: prev.skills.filter((s) => s !== skill) }))
+    setFormData((prev) => ({ ...prev, skills: prev.applicationDetails?.skills?.filter((s) => s !== skill) }))
   }
 
   return (
@@ -285,11 +298,11 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                 <Input
                   id="degree"
                   placeholder="Degree"
-                  value={formData.education.degree}
+                  value={formData.applicationDetails?.education?.degree}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      education: { ...prev.education, degree: e.target.value },
+                      education: { ...(prev.applicationDetails?.education || []), degree: e.target.value },
                     }))
                   }
                   className="w-full h-[50px] text-black"
@@ -302,11 +315,11 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                 <Input
                   id="university"
                   placeholder="University"
-                  value={formData.education.university}
+                  value={formData.applicationDetails?.education?.university}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      education: { ...prev.education, university: e.target.value },
+                      education: { ...(prev.applicationDetails?.education || []), university: e.target.value },
                     }))
                   }
                   className="w-full h-[50px] text-black"
@@ -319,11 +332,11 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                 <Input
                   id="graduationYear"
                   placeholder="Enter your Graduation salary"
-                  value={formData.education.graduationYear}
+                  value={formData.applicationDetails?.education?.graduationYear}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      education: { ...prev.education, graduationYear: e.target.value },
+                      education: { ...(prev.applicationDetails?.education || []), graduationYear: e.target.value },
                     }))
                   }
                   className="w-full h-[50px] text-black"
@@ -332,7 +345,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
             </div>
             <div className="space-y-2">
               <Label>Work Experience</Label>
-              {formData.workExperience.companies.map((company, index) => (
+              {formData.applicationDetails?.workExperience?.companies.map((company, index) => (
                 <div key={index} className="grid grid-cols-3 gap-4 mt-2">
                   <Input
                     name="name"
@@ -362,7 +375,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
               <Label className="text-sm font-medium text-gray-700" htmlFor="sourcecode">
                 Skills
               </Label>
-              <TagInput tags={formData.skills} onAddTag={handleAddSkill} onRemoveTag={handleRemoveSkill} />
+              <TagInput tags={formData.applicationDetails?.skills || []} onAddTag={handleAddSkill} onRemoveTag={handleRemoveSkill} />
             </div>
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700" htmlFor="projectDescription">
@@ -372,7 +385,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                 id="additionalInfo"
                 name="additionalInfo"
                 placeholder="Enter any additional Information"
-                value={formData.additionalInfo}
+                value={formData.applicationDetails?.additionalInfo}
                 onChange={handleInputChange}
                 className="w-full h-[200px] text-black"
                 rows={4}
