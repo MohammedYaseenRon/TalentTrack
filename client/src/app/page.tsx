@@ -30,10 +30,10 @@ export default function Home() {
       <Navbar />
       <div className="flex flex-col min-h-screen justify-center items-center flex-grow px-6 md:px-12">
         <div className="max-w-2xl space-y-6 text-center">
-          <AnimatedGradientText text="Showcase Your Talents, Land Your Dream Job" className="mb-6" />
-          <p className="text-3xl md:text-2xl font-extrabold text-red-800">Get Hired with Your Work</p>
+          <AnimatedGradientText text="Showcase Your Talents, Land Your Dream Job" className="mb-6 italic" fontSize="70px" />
+          <p className="text-3xl md:text-2xl italic font-extrabold text-red-800">Get Hired with Your Work</p>
           <div className="flex justify-center items-center gap-8">
-            <MotionButton href="/auth/login" text="Get Started" bgColor="bg-[#FF6B6B]" />
+            <MotionButton href="/auth/signup" text="Get Started" bgColor="bg-[#FF6B6B]" />
             <MotionButton href="#" text="Learn More" bgColor="bg-black" />
           </div>
         </div>

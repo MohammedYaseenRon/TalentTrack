@@ -12,6 +12,8 @@ import jobRoute from "./routes/jobRoute"
 import userRoute from "./routes/userRoute"
 import applicationRoute from "./routes/applicationRoutes"
 import interviewRoutes from "./routes/interviewRoutes"
+import path from "path";
+
 
 
 dotenv.config();
@@ -43,6 +45,8 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 
 // Routes
 app.get('/', (req, res) => {

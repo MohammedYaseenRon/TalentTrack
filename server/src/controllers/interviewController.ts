@@ -23,7 +23,6 @@ const generateJitsiMeetingUrl = (interviewType: string, applicationId: string): 
 
 export const scheduleInterview = async (req: Request, res: Response): Promise<void> => {
     const { applicationId, interviewType, slotId, interviewerName } = req.body;
-    console.log("Received interview scheduling request:", req.body);
     try {
 
         const application = await prisma.application.findUnique({

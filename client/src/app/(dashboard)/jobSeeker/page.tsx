@@ -88,7 +88,7 @@ export default function JobSeeker() {
       </div>
       <div className='text-center'>
         <h1 className='text-2xl font-medium'>Check your Resume before sending to Recruiter</h1>
-        <div className='max-w-3xl mx-auto bg-gray-100 border rounded-xl h-[200px] mt-2 flex flex-col items-center justify-center'>
+        <div className='max-w-xl lg:max-w-3xl mx-auto bg-gray-100 border rounded-xl h-[200px] mt-2 flex flex-col items-center justify-center'>
           <Label htmlFor='resume' className='text-base font-medium'>
             <File className='w-12 h-12' />
           </Label>
@@ -107,7 +107,7 @@ export default function JobSeeker() {
           <Button onClick={handleUpload} className='text-lg fonr-medium bg-black'>Analyze Resume</Button>
         </div>
       </div>
-      <div className="mt-8 mb-16 max-w-3xl mx-auto">
+      <div className="mt-8 mb-16 max-w-xl lg:max-w-3xl mx-auto">
         {error && <p className="text-red-500 text-center">{error}</p>}
         {loading ? (
           <ResumeAnalysisSkeleton />

@@ -172,150 +172,156 @@ const JobOffer = () => {
           ) : applications.length > 0 ? (
             <ScrollArea className="h-[calc(80vh-100px)] px-6">
               <div className="space-y-6 py-6">
-                {applications.map((app) => (
-                  <Card key={app.id ?? 0} className="overflow-hidden">
-                    <CardHeader className="bg-gray-50">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-xl">
-                          {app.user?.name ?? "Unknown User"}
-                        </CardTitle>
-                        <Badge className={getStatusColor(app.status)}>
-                          {app.status ?? "Unknown"}
-                        </Badge>
-                        <Select
-                          value={app.status ?? ""}
-                          onValueChange={(newValue) => handleStatusChange(newValue, app.id)}
-                        >
-                          <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Status" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="PENDING">Pending</SelectItem>
-                            <SelectItem value="SHORTLISTED">Shortlisted</SelectItem>
-                            <SelectItem value="REJECTED">Rejected</SelectItem>
-                            <SelectItem value="ACCEPTED">Accepted</SelectItem>
-                            <SelectItem value="REVIEWING">Reviewing</SelectItem>
-                            <SelectItem value="INTERVIEWED">Interviewed</SelectItem>
-                            <SelectItem value="WITHDRAWN">Withdrawn</SelectItem>
-                            <SelectItem value="OFFERED">Offered</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-6">
-                      <div className="grid gap-6">
-                        <div className="space-y-2">
-                          <div className="grid grid-cols-2 gap-4 space-y-2">
-                            <div>
-                              <p className="text-sm text-gray-500">Email</p>
-                              <p className="font-medium">{app.user?.email ?? "N/A"}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Applied On</p>
-                              <p className="font-medium">
-                                {app.appliedAt
-                                  ? new Date(app.appliedAt).toLocaleDateString()
-                                  : "N/A"}
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-black">Expected Salary</p>
-                              <p className="font-medium">{app.expectedSalary}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Notice Period</p>
-                              <p className="font-sm">{app.noticePeriod}</p>
+                {applications.map((app) => {
+                  const baseUrl = "http://localhost:4000"; // Change this to match the backend domain
+                  const resumeUrl = app.resumeUrl?.startsWith("http") ? app.resumeUrl : `${baseUrl}${app.resumeUrl}`;
+
+                  return (
+
+                    <Card key={app.id ?? 0} className="overflow-hidden">
+                      <CardHeader className="bg-gray-50">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-xl">
+                            {app.user?.name ?? "Unknown User"}
+                          </CardTitle>
+                          <Badge className={getStatusColor(app.status)}>
+                            {app.status ?? "Unknown"}
+                          </Badge>
+                          <Select
+                            value={app.status ?? ""}
+                            onValueChange={(newValue) => handleStatusChange(newValue, app.id)}
+                          >
+                            <SelectTrigger className="w-[180px]">
+                              <SelectValue placeholder="Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="PENDING">Pending</SelectItem>
+                              <SelectItem value="SHORTLISTED">Shortlisted</SelectItem>
+                              <SelectItem value="REJECTED">Rejected</SelectItem>
+                              <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                              <SelectItem value="REVIEWING">Reviewing</SelectItem>
+                              <SelectItem value="INTERVIEWED">Interviewed</SelectItem>
+                              <SelectItem value="WITHDRAWN">Withdrawn</SelectItem>
+                              <SelectItem value="OFFERED">Offered</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-6">
+                        <div className="grid gap-6">
+                          <div className="space-y-2">
+                            <div className="grid grid-cols-2 gap-4 space-y-2">
+                              <div>
+                                <p className="text-sm text-gray-500">Email</p>
+                                <p className="font-medium">{app.user?.email ?? "N/A"}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">Applied On</p>
+                                <p className="font-medium">
+                                  {app.appliedAt
+                                    ? new Date(app.appliedAt).toLocaleDateString()
+                                    : "N/A"}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-black">Expected Salary</p>
+                                <p className="font-medium">{app.expectedSalary}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">Notice Period</p>
+                                <p className="font-sm">{app.noticePeriod}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <Separator />
+                          <Separator />
 
-                        <div>
-                          <h4 className="font-semibold mb-2">Education</h4>
+                          <div>
+                            <h4 className="font-semibold mb-2">Education</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="text-sm text-gray-500">Degree</p>
+                                <p className="font-medium">{app.applicationDetails?.education?.degree ?? "N/A"}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">University</p>
+                                <p className="font-medium">{app.applicationDetails?.education?.university ?? "N/A"}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">Graduation Year</p>
+                                <p className="font-medium">{app.applicationDetails?.education?.graduationYear ?? "N/A"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <Separator />
+
+                          <div>
+                            <h4 className="font-semibold mb-2">Work Experience</h4>
+                            <div className="space-y-4">
+                              {app.applicationDetails?.workExperience?.companies.map((company, index) => (
+                                <div key={index} className="grid grid-cols-2 gap-4">
+                                  <div>
+                                    <p className="text-sm text-gray-500">Company</p>
+                                    <p className="font-medium">{company.name}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-gray-500">Position</p>
+                                    <p className="font-medium">{company.position}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-gray-500">Duration</p>
+                                    <p className="font-medium">{company.duration}</p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <Separator />
+
+                          <div>
+                            <h4 className="font-semibold mb-2">Skills</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {app.applicationDetails?.skills?.map((skill, index) => (
+                                <Badge key={index} variant="secondary">
+                                  {skill}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+
+                          <Separator />
+
+                          <div>
+                            <h4 className="font-semibold mb-2">Additional Information</h4>
+                            <p className="text-gray-700">{app.applicationDetails?.additionalInfo}</p>
+                          </div>
+
+                          <div>
+                            <h4 className="font-semibold mb-2">Cover Letter</h4>
+                            <p className="text-gray-700">{app.coverLetter}</p>
+                          </div>
+
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-sm text-gray-500">Degree</p>
-                              <p className="font-medium">{app.education?.degree}</p>
+                              <h4 className="font-semibold mb-2">Resume</h4>
+                              <Button variant="outline" className="w-full">
+                                <a
+                                  href={resumeUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  View Resume
+                                </a>
+                              </Button>
                             </div>
-                            <div>
-                              <p className="text-sm text-gray-500">University</p>
-                              <p className="font-medium">{app.education?.university}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Graduation Year</p>
-                              <p className="font-medium">{app.education?.graduationYear}</p>
-                            </div>
                           </div>
                         </div>
-
-                        <Separator />
-
-                        <div>
-                          <h4 className="font-semibold mb-2">Work Experience</h4>
-                          <div className="space-y-4">
-                            {app.workExperience?.companies.map((company, index) => (
-                              <div key={index} className="grid grid-cols-2 gap-4">
-                                <div>
-                                  <p className="text-sm text-gray-500">Company</p>
-                                  <p className="font-medium">{company.name}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-gray-500">Position</p>
-                                  <p className="font-medium">{company.position}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-gray-500">Duration</p>
-                                  <p className="font-medium">{company.duration}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <Separator />
-
-                        <div>
-                          <h4 className="font-semibold mb-2">Skills</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {app?.skills?.map((skill, index) => (
-                              <Badge key={index} variant="secondary">
-                                {skill}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-
-                        <Separator />
-
-                        <div>
-                          <h4 className="font-semibold mb-2">Additional Information</h4>
-                          <p className="text-gray-700">{app.additionalInfo}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="font-semibold mb-2">Cover Letter</h4>
-                          <p className="text-gray-700">{app.coverLetter}</p>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <h4 className="font-semibold mb-2">Resume</h4>
-                            <Button variant="outline" asChild className="w-full">
-                              <a
-                                href={typeof app.resumeUrl === "string" ? app.resumeUrl : "#"}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                View Resume
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </ScrollArea>
           ) : (

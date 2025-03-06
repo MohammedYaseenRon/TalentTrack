@@ -44,6 +44,8 @@ export const createApplication = async (req: Request, res: Response): Promise<vo
             return
 
         }
+        console.log("Uploaded file details:", req.file);
+
         const resumeUrl = `/uploads/${req.file.filename}`; // Uploaded file path
 
         const { application, notification } = await prisma.$transaction(async (prisma) => {

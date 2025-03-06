@@ -26,12 +26,6 @@ const Header = () => {
           <Logo />
         </div>
         <div className='flex items-center gap-4 ml-auto'>
-          <div className='flex items-center gap-2'>
-            <HomeIcon className='w-5 h-5 text' />
-            <span className='font-medium text-base md:text-lg text-black'>
-              My Activities
-            </span>
-          </div>
           <div className='flex items-center gap-4 sm:gap-6'>
             <button className="rounded-full h-8 w-8 flex items-center justify-center hover:bg-accent">
               <Bell className="h-5 w-5 text-muted-foreground" />

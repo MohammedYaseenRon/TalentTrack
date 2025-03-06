@@ -1,11 +1,12 @@
 import React from 'react'
+import AnimatedGradientText from './GradientText'
 
 const Logo = () => {
   return (
     <div>
-        <h1 className='text-xl font-medium '>Talents<span className='text-red-200 font-semibold ml-2'> Tracks</span></h1>
+      <AnimatedGradientText text="Talents Tracks" className="italic" fontSize="30px" backgroundColur="linear-gradient(90deg,rgb(243, 66, 69),rgb(107, 239, 193),rgb(175, 114, 244),rgb(214, 239, 105))" />
     </div>
   )
 }
-  
+
 export default Logo

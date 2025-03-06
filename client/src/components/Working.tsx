@@ -137,7 +137,7 @@ export default function Working() {
                 </motion.div>
             </div> */}
 
-            <div className="relative flex justify-center mt-24 mb-32">
+            <div className="relative flex justify-center mt-32 mb-32">
                 {/* SVG for vertical tree lines */}
                 <svg className="absolute h-full" style={{ width: '10px', height: '100%', left: 'calc(50% - 5px)', top: 0 }} viewBox="0 0 10 800" preserveAspectRatio="none">
                     <motion.path
@@ -160,7 +160,7 @@ export default function Working() {
                     initial="hidden"
                     animate="visible"
                 >
-                    <div className="w-16 h-16 ml-2 rounded-full bg-[#FF6B6B] flex items-center justify-center shadow-lg border-4 border-white">
+                    <div className="w-16 h-16 ml-2 rounded-full bg-[#FF6B6B] flex items-center justify-center border-4 border-white">
                         <span className="text-xl text-white font-bold">
                             {activeTab === 'recruiter' ? '👔' : '🧑‍💼'}
                         </span>

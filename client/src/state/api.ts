@@ -19,16 +19,22 @@ export interface ApplicationProps {
     status?: string
     appliedAt?: string
     jobId?: number
-    resumeUrl: File | null,
+    resumeUrl: string | null,
     coverLetter: string,
     expectedSalary: string,
     noticePeriod: string,
-    education: Education,
-    workExperience: {
-        companies: Company[]
+
+    applicationDetails?: {
+        id: number
+        applicationId: number
+        education?: Education,
+        workExperience?: {
+            companies: Company[]
+        }
+        skills?: string[],
+        additionalInfo?: string
     }
-    skills: string[],
-    additionalInfo: string
+
 }
 
 interface ApplicationData {
