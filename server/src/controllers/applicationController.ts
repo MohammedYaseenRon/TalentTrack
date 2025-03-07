@@ -5,7 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs"
 import { WebSocketServer, WebSocket } from "ws";
-const wss = new WebSocketServer({ port: 8080 });
+import  {wss} from '../index'
 import { upload } from "./userController";
 
 

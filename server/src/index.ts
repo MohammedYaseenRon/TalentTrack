@@ -23,7 +23,7 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 4000;
 
-const wss = new WebSocketServer({ server });
+export const wss = new WebSocketServer({ server });
 
 wss.on("connection", (ws: WebSocket) => {
     console.log("New WebSocket connection established");
