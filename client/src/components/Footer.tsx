@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
-const Footer = () => {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
@@ -64,12 +64,12 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
             <p className="text-gray-400 mb-4">Subscribe to our newsletter for job alerts and career tips.</p>
             <form className="flex flex-col space-y-2">
-              <input 
+              <input suppressHydrationWarning
                 type="email" 
                 placeholder="Your email address" 
                 className="px-4 py-2 bg-gray-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button 
+              <button suppressHydrationWarning
                 type="submit" 
                 className="px-4 py-2 bg-[#FF6B6B] text-white rounded hover:bg-[FF6B6B] transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
@@ -94,4 +94,3 @@ const Footer = () => {
   );
 };
 
-export default Footer;

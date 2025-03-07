@@ -95,6 +95,8 @@ export const ImagePicker: React.FC<ImagePickerProps> = ({
                     {previews.map((preview, index) => (
                         <div key={index} className="relative">
                             <Image 
+                                width={20}
+                                height={20}
                                 src={preview} 
                                 alt={`Preview ${index + 1}`} 
                                 className="w-20 h-20 object-cover rounded"

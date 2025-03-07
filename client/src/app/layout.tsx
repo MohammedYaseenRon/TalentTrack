@@ -25,11 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster position="top-right" reverseOrder={false} toastOptions={{ duration: 3000, style: { background: '#363636',color: '#fff',},}}/>
+        <Toaster position="top-right" reverseOrder={false} toastOptions={{ duration: 3000, style: { background: '#363636', color: '#fff', }, }} />
         {children}
       </body>
     </html>

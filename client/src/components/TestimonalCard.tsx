@@ -8,7 +8,7 @@ interface TestimonialProps {
     isActive: boolean;
 }
 
-export const TestimonialCard: React.FC<TestimonialProps> = ({ rating, name, role, feedback, isActive }) => {
+export default function TestimonalCard({ rating, name, role, feedback, isActive }: TestimonialProps){
     return (
         <div
             className={`transition-transform duration-500 ease-in-out bg-white p-6 rounded-xl shadow-lg text-center w-80 h-auto

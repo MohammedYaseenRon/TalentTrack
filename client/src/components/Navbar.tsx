@@ -1,10 +1,9 @@
-"use client";
 import React from 'react'
 import { Button } from './ui/button'
 import { User } from 'lucide-react';
 import Logo from './Logo';
 
-const Navbar = () => {
+export default function Navbar (){
   return (
     <div className='fixed bg-[#FFFFFF] shadow-lg w-full h-16 z-50'>
         <div className='max-w-screen-xl mx-auto px-4 flex items-center justify-between h-full'>
@@ -21,5 +20,3 @@ const Navbar = () => {
     </div>
   )
 }
-
-export default Navbar

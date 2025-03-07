@@ -91,7 +91,7 @@ const contentVariants = {
     })
 };
 
-export default function Working() {
+export default function Working(){
     const [activeTab, setActiveTab] = useState('recruiter');
 
     return (
@@ -252,3 +252,4 @@ export default function Working() {
         </div >
     );
 }
+

@@ -1,13 +1,16 @@
 "use client";
-
-import Navbar from "@/components/Navbar";
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import AnimatedGradientText from "@/components/GradientText";
-import Working from "@/components/Working";
+import Navbar from "@/components/Navbar";
 import Features from "@/components/Features";
+import Working from "@/components/Working";
 import Footer from "@/components/Footer";
-import Testimonals from "@/components/Testimonals";
+import Testimonials from "@/components/Testimonials";
+
+
+
 
 interface MotionButtonProps {
   href: string;
@@ -16,8 +19,8 @@ interface MotionButtonProps {
 }
 
 const MotionButton = ({ href, text, bgColor }:MotionButtonProps) => (
-  <Link href={href}>
-    <motion.button
+  <Link href={href} passHref>
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
@@ -25,7 +28,7 @@ const MotionButton = ({ href, text, bgColor }:MotionButtonProps) => (
       className={`px-6 py-3 ${bgColor} border border-white text-white font-bold rounded-lg shadow-lg focus:outline-none`}
     >
       {text}
-    </motion.button>
+    </motion.div>
   </Link>
 );
 
@@ -46,7 +49,7 @@ export default function Home() {
       <Features />
       <Working />
       {/* <Information /> */}
-      <Testimonals />
+      <Testimonials />
       <Footer />
     </div>
   );

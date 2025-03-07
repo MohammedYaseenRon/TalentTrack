@@ -1,6 +1,7 @@
+"use client"
 import React, { useState } from "react";
-import { TestimonialCard } from "./TestimonalCard";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import TestimonalCard from "./TestimonalCard";
 
 const testimonials = [
     { 
@@ -36,7 +37,7 @@ const testimonials = [
 ];
 
 
-export default function Testimonals() {
+export default function Testimonials(){
     const [activeIndex, setActiveIndex] = useState(1);
 
     const prevTestimonial = () => {
@@ -72,21 +73,21 @@ export default function Testimonals() {
                                     transform: `translateX(${position * 200}px) rotate(${position * 5}deg)`,
                                 }}
                             >
-                                <TestimonialCard {...testimonial} isActive={position === 0} />
+                                <TestimonalCard {...testimonial} isActive={position === 0} />
                             </div>
                         );
                     })}
                 </div>
 
                 {/* Navigation Arrows */}
-                <button
+                <button suppressHydrationWarning
                     className="absolute left-0 md:left-1/4 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-400 p-3 rounded-full text-gray-800"
                     onClick={prevTestimonial}
                 >
                     <ArrowBigLeft size={20} />
                 </button>
 
-                <button
+                <button suppressHydrationWarning
                     className="absolute right-0 md:right-1/4 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-400 p-3 rounded-full text-gray-800"
                     onClick={nextTestimonial}
                 >
@@ -96,3 +97,4 @@ export default function Testimonals() {
         </div>
     );
 }
+

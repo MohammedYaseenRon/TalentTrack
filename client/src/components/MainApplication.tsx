@@ -1,4 +1,4 @@
-import React,{useState} from "react"
+import React, { useState } from "react"
 import type { ApplicationProps } from "@/state/api"
 import { Card, CardContent } from "./ui/card"
 import Modal from "./Modal"
@@ -27,14 +27,14 @@ interface CustomJwtPayload {
 
 export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClose, name, job }) => {
   const [formData, setFormData] = useState<ApplicationProps>({
-    id:1,
+    id: 1,
     resumeUrl: null,
     coverLetter: "",
     noticePeriod: "",
     expectedSalary: "",
-    applicationDetails: { 
-      id:0,
-      applicationId:0, 
+    applicationDetails: {
+      id: 0,
+      applicationId: 0,
       education: {
         degree: "",
         university: "",
@@ -87,13 +87,39 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
-    if (type === "file") {
+
+    if (name === "additionalInfo") {
+      setFormData((prev) => ({
+        ...prev,
+        applicationDetails: {
+          ...prev.applicationDetails!,
+          additionalInfo: value,
+        },
+      }))
+    } else if (type === "file") {
       const file = (e.target as HTMLInputElement).files?.[0] || null
       setFormData((prev) => ({ ...prev, [name]: file }))
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }))
     }
   }
+
+  const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      applicationDetails: {
+        ...prev.applicationDetails!,
+        education: {
+          ...prev.applicationDetails!.education!,
+          [id]: value,
+        },
+      },
+    }))
+  }
+
+
+
 
 
   const handleWorkExperienceChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -171,14 +197,14 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       toast.success("Application created successfully.")
       onClose()
       setFormData({
-        id:1,
+        id: 1,
         resumeUrl: null,
         coverLetter: "",
         noticePeriod: "",
         expectedSalary: "",
         applicationDetails: {
-          id:0,
-          applicationId:0,
+          id: 0,
+          applicationId: 0,
           education: {
             degree: "",
             university: "",
@@ -204,13 +230,23 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
   }
 
   const handleAddSkill = (skill: string) => {
-    if (!formData.applicationDetails?.skills?.includes(skill)) {
-      setFormData((prev) => ({ ...prev, skills: [...(prev.applicationDetails?.skills || []), skill] }))
+    if (skill && formData.applicationDetails?.skills && !formData.applicationDetails?.skills?.includes(skill)) {
+      setFormData((prev) => ({
+        ...prev, applicationDetails:{
+          ...prev.applicationDetails!,
+          skills: [...(prev.applicationDetails?.skills || []), skill],
+        }
+      }))
     }
   }
 
   const handleRemoveSkill = (skill: string) => {
-    setFormData((prev) => ({ ...prev, skills: prev.applicationDetails?.skills?.filter((s) => s !== skill) }))
+    setFormData((prev) => ({
+      ...prev,applicationDetails: {
+        ...prev.applicationDetails!,
+        skills: prev.applicationDetails?.skills?.filter((s) => s !== skill) || [],
+      },
+    }))
   }
 
   return (
@@ -296,12 +332,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                   id="degree"
                   placeholder="Degree"
                   value={formData.applicationDetails?.education?.degree}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      education: { ...(prev.applicationDetails?.education || []), degree: e.target.value },
-                    }))
-                  }
+                  onChange={handleEducationChange}
                   className="w-full h-[50px] text-black"
                 />
               </div>
@@ -313,12 +344,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                   id="university"
                   placeholder="University"
                   value={formData.applicationDetails?.education?.university}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      education: { ...(prev.applicationDetails?.education || []), university: e.target.value },
-                    }))
-                  }
+                  onChange={handleEducationChange}
                   className="w-full h-[50px] text-black"
                 />
               </div>
@@ -330,12 +356,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
                   id="graduationYear"
                   placeholder="Enter your Graduation salary"
                   value={formData.applicationDetails?.education?.graduationYear}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      education: { ...(prev.applicationDetails?.education || []), graduationYear: e.target.value },
-                    }))
-                  }
+                  onChange={handleEducationChange}
                   className="w-full h-[50px] text-black"
                 />
               </div>

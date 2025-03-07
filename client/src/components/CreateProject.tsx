@@ -6,7 +6,6 @@ import Modal from "./Modal"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
-import type { File } from "lucide-react"
 import { Button } from "./ui/button"
 import { ImagePicker } from "./ImagePicker"
 import axios from "axios"
@@ -50,6 +49,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    
 
     const formDataToSend = new FormData()
     formDataToSend.append("name", formData.projectName)
