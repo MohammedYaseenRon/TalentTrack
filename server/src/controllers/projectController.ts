@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import cloudinary from "../../config/cloudinary";
+import cloudinary from "../config/cloudinary";
 import multer from "multer"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 
