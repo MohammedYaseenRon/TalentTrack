@@ -20,7 +20,7 @@ export default function Applications() {
         if (selectedJobId) {
             fetchApplications(selectedJobId);
         }
-        const ws = new WebSocket("ws://localhost:8080");
+        const ws = new WebSocket("ws://localhost:4000");
 
         ws.onopen = () => {
             console.log("WebSocket connection established");
