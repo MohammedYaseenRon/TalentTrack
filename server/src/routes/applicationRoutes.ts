@@ -5,7 +5,7 @@ import { authenticateToken } from "../middleware/authMiddleware";
 const router = Router();
 
 router.post('/',authenticateToken, createApplication);
-router.get('/job/:jobId',   getAllApplication);
+router.get('/:jobId',   getAllApplication);
 // router.get('/:applicationId',   getApplicationDetails);
 router.get('/user/:userId',  getUserApplication)
 router.patch('/:id/status', updateApplicationStatus);
