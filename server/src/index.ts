@@ -63,7 +63,6 @@ app.use("/application", applicationRoute);
 app.use("/interview", interviewRoutes)
 
 
-console.log(`Environment PORT value: ${process.env.PORT || 'undefined'}`); // Debug line
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
   });

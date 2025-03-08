@@ -186,7 +186,7 @@ export const MainApplication: React.FC<MainApplicationProps> = ({ isOpen, onClos
       formDataToSend.append('resume', resumeUrl)
 
       const token = localStorage.getItem("token")
-      const response = await axios.post("http://localhost:4000/application", formDataToSend, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/application`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

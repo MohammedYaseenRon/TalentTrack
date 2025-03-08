@@ -47,7 +47,7 @@ export default function JobSeeker() {
       setLoading(true);
       setError(null);
       setAnalysis(null);
-      const response = await axios.post("http://localhost:4000/user/resume", formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/resume`, formData, {
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },

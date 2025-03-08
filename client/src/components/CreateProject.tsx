@@ -70,7 +70,7 @@ const CreateProject = ({ isOpen, onClose, name }: ModalProps) => {
         return
       }
 
-      const response = await axios.post("http://localhost:4000/project", formDataToSend, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/project`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

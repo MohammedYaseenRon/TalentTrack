@@ -72,7 +72,7 @@ export default function CreateSlot({ onSlotCreated }: { onSlotCreated: () => voi
         }
 
         try {
-            const response = await axios.post("http://localhost:4000/interview/slots", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/interview/slots`, {
                 startTime: startDate.toISOString(),
                 endTime: endDate.toISOString(),
             }, {

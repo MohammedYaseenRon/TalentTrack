@@ -29,7 +29,7 @@ const ProjectDetails = () => {
 
     const fetchProjectDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/project/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project/${id}`);
         if (!response || !response.data) {
           throw new Error("Project not found");
         }

@@ -27,7 +27,7 @@ export const useJobStore = create<JobStore>((set) => ({
   fetchJobs: async () => {
     set({ loading: true, error: null })
     try {
-      const response = await axios.get("http://localhost:4000/jobs")
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/jobs`)
       set({ jobs: response.data, loading: false })
     } catch (error) {
       console.error("Error while fetching Jobs", error)
@@ -37,7 +37,7 @@ export const useJobStore = create<JobStore>((set) => ({
 
   deleteJob: async (jobId: number) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/jobs/${jobId}`);
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${jobId}`);
       set((state) => ({
         jobs: state.jobs.filter((job) => job.id !== jobId),
       })); 
@@ -53,7 +53,7 @@ export const useJobStore = create<JobStore>((set) => ({
   fetchApplications: async (jobId: number) => {
     set({ fetchingApplications: true, error: null })
     try {
-      const response = await axios.get(`http://localhost:4000/application/job/${jobId}`)
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/job/${jobId}`)
       set({ applications: response.data, selectedJobId: jobId, fetchingApplications: false })
     } catch (error) {
       console.error("Error while fetching applications", error)
@@ -63,7 +63,7 @@ export const useJobStore = create<JobStore>((set) => ({
 
   updateApplicationStatus: async (applicationId: number, newStatus: string) => {
     try {
-      const response = await axios.patch(`http://localhost:4000/application/${applicationId}/status`, { status: newStatus })
+      const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/${applicationId}/status`, { status: newStatus })
       if (response.status === 200) {
         set((state) => ({
           applications: state.applications.map((app) =>

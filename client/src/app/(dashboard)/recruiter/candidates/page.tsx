@@ -63,10 +63,7 @@ export default function CandidatesProjects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/project");
-        console.log("http://localhost:4000/project");
-        console.log("API Response:", response.data);
-        setProjects(response.data);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project`);        console.log("API Response:", response.data);        setProjects(response.data);
         setLoading(false);
       } catch (error) {
         setError("Error while fetching projects");

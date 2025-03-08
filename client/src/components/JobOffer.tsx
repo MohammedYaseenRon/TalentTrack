@@ -47,7 +47,7 @@ const JobOffer: React.FC<ModalProps> = ({ isOpen, onClose}) => {
                 console.log("Authentication token is missing");
                 return;
             }
-            const response = await axios.post("http://localhost:4000/jobs", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
                 title,
                 description,
                 skills,

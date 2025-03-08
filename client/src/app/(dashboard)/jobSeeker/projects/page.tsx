@@ -59,7 +59,7 @@
       useEffect(() => {
         const fetchProjects = async () => {
           try {
-            const response = await axios.get("http://localhost:4000/project");
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project`);
             console.log("API Response:", response.data);
             setProjects(response.data);
             setLoading(false);

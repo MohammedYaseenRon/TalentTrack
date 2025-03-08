@@ -69,7 +69,7 @@ export default function Signup() {
         // Perform signup logic (e.g., API request)
 
         try {
-            const response = await axios.post("http://localhost:4000/auth/signup", formData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, formData);
             setFormData({ name: '', email: '', password: '', role: 'JOB_SEEKER' });
             const { token, user } = response.data;
 

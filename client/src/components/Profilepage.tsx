@@ -24,7 +24,7 @@ const Profilepage: React.FC<ModalProps> = ({ isOpen, onClose, width, className, 
                     return;
                 }
 
-                const response = await axios.get("http://localhost:4000/user/profile", {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,

@@ -41,7 +41,7 @@ export const InterviewScheduler = () => {
 
     const fetchSlots = async () => {
         try {
-            const response = await axios.get("http://localhost:4000/interview/slots");
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/interview/slots`);
             setSlots(response.data);
             toast.success("Slots fetched successfully");
         } catch (error) {
@@ -103,7 +103,7 @@ export const InterviewScheduler = () => {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:4000/interview/schedule", {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/interview/schedule`, {
                 applicationId: Number(selectedApplication),
                 interviewType,
                 slotId: selectedSlot.id,
@@ -196,4 +196,4 @@ export const InterviewScheduler = () => {
             )}
         </div>
     );
-};
+}

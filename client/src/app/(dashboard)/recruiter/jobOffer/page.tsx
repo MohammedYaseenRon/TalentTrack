@@ -172,7 +172,7 @@ const JobOffer = () => {
             <ScrollArea className="h-[calc(80vh-100px)] px-6">
               <div className="space-y-6 py-6">
                 {applications.map((app) => {
-                  const baseUrl = "http://localhost:4000"; // Change this to match the backend domain
+                  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}`; // Change this to match the backend domain
                   const resumeUrl = app.resumeUrl?.startsWith("http") ? app.resumeUrl : `${baseUrl}${app.resumeUrl}`;
 
                   return (

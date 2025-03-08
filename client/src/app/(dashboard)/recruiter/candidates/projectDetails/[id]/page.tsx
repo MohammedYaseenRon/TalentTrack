@@ -83,7 +83,7 @@ const ProjectDetails = () => {
   useEffect(() => {
     const fetchRatings = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/rating/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/rating/${id}`);
         console.log(response.data);
 
         const ratingsMap = response.data.reduce((acc: {[key: number]:number }, item: { projectId: number; rating: number }) => {
@@ -112,7 +112,7 @@ const ProjectDetails = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/rating", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/rating`, {
         rating,
         projectId,
         userId: userId
@@ -131,7 +131,7 @@ const ProjectDetails = () => {
     if (!id) return; // Ensure that 'id' is available before fetchin
     const fetchProjectDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/project/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project/${id}`);
         if (!response || !response.data) {
           throw new Error("Project not found");
         }

@@ -18,9 +18,10 @@ interface MotionButtonProps {
   bgColor: string;
 }
 
-const MotionButton = ({ href, text, bgColor }:MotionButtonProps) => (
+const MotionButton = ({ href, text, bgColor }: MotionButtonProps) => (
   <Link href={href} passHref>
     <motion.div
+      suppressHydrationWarning
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
