@@ -20,7 +20,7 @@ export default function Applications() {
         if (selectedJobId) {
             fetchApplications(selectedJobId);
         }
-        const ws = new WebSocket(`ws://${process.env.NEXT_PUBLIC_API_URL}`);
+        const ws = new WebSocket(`wss://${process.env.NEXT_PUBLIC_API_URL}`);
 
         ws.onopen = () => {
             console.log("WebSocket connection established");
