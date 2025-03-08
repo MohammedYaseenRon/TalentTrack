@@ -21,7 +21,7 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
+const port = Number(process.env.PORT) || 4001;
 
 export const wss = new WebSocketServer({ server });
 
@@ -64,7 +64,7 @@ app.use("/interview", interviewRoutes)
 
 
 console.log(`Environment PORT value: ${process.env.PORT || 'undefined'}`); // Debug line
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
   });
   
