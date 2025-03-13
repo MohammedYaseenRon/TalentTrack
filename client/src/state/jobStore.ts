@@ -53,7 +53,7 @@ export const useJobStore = create<JobStore>((set) => ({
   fetchApplications: async (jobId: number) => {
     set({ fetchingApplications: true, error: null })
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/job/${jobId}`)
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/jobs/${jobId}`)
       set({ applications: response.data, selectedJobId: jobId, fetchingApplications: false })
     } catch (error) {
       console.error("Error while fetching applications", error)
