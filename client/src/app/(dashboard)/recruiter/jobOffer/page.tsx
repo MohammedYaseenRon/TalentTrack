@@ -100,6 +100,7 @@ const JobOffer = () => {
             You can also view applications for specific jobs
           </p>
 
+          
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-lg mt-4">
             <Table className="w-full">
               <TableHeader className="bg-black">

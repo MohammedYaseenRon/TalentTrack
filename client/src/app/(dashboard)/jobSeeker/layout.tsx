@@ -14,6 +14,8 @@ const jobSeekerMenuItems = [
   { icon: "Home", label: 'Dashboard', href: "/jobSeeker" },
   { icon: "Folder", label: 'Projects', href: "/jobSeeker/projects" },
   { icon: "Briefcase", label: 'Jobs', href: "/jobSeeker/jobs" },
+  { icon: "CheckSquare", label: 'Task', href: "/jobSeeker/task" },
+
   // { icon: "BarChart", label: 'Project Details', href: "/jobSeeker/projectDetails" },
   // { icon: "Users", label: 'Team', href: "/jobSeeker/team" },
   // { icon: "Settings", label: 'Settings', href: "/jobSeeker/settings" },

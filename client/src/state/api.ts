@@ -62,7 +62,28 @@ export interface JobOfferProps {
     location: string,
     deadline: string;
 }
+export interface Submission {
+    id: number;
+    taskId: number;
+    jobSeekerId: number;
+    submissonUrl: string;
+    status: string;
+    submittedAt: string;
+    task: {
+        id: number;
+        title: string;
+    };
+    jobSeeker: {
+        id: number;
+        name: string;
+        email: string;
+    };
+}
 
+export interface TaskSubmissionProps {
+    id: number;
+    submissionUrl: string
+}
 export interface Company {
     name: string,
     position: string,
@@ -135,16 +156,16 @@ export interface Profile {
     id: number;
     name: string;
     email: string;
-  }
-  
-  export interface ProfileProject {
+}
+
+export interface ProfileProject {
     id: number;
     name: string;
     createdAt: string;
-  }
+}
 
 
-  interface User {
+interface User {
     name: string;
     email: string;
 }
@@ -152,6 +173,28 @@ export interface Profile {
 interface JobApplication {
     id: number;
     user: User;
+}
+
+
+export interface TaskData {
+    id: number
+    title: string;
+    description: string,
+    deadline: Date;
+    taskImage: { url: string; type: string }[]
+
+}
+export interface TaskSubmissionProps {
+    submissionUrl: string
+}
+
+
+export interface Task {
+    title: string;
+    description: string,
+    deadline: Date;
+    taskImage: File[]
+
 }
 
 export interface WebSocketMessage {

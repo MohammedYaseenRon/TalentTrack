@@ -12,6 +12,8 @@ import jobRoute from "./routes/jobRoute"
 import userRoute from "./routes/userRoute"
 import applicationRoute from "./routes/applicationRoutes"
 import interviewRoutes from "./routes/interviewRoutes"
+import taskRoutes from "./routes/taskRoutes"
+
 import path from "path";
 
 
@@ -61,9 +63,10 @@ app.use("/jobs", jobRoute);
 app.use("/user", userRoute);
 app.use("/application", applicationRoute);
 app.use("/interview", interviewRoutes)
+app.use("/tasks", taskRoutes);
 
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
-  });
+});
   

@@ -6,6 +6,7 @@ import { useState } from 'react';
 interface ProjectImageProps {
   imageUrl?: string;
   altText: string;
+  className?:string
 }
 
 export function ProjectImage({ imageUrl, altText }: ProjectImageProps) {

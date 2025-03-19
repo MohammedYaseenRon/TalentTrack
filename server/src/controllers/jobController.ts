@@ -51,7 +51,7 @@ export const getJobs = async (
             res.status(404).json({ message: "No jobs found" });
             return;
         }
-        res.json(jobs);
+        res.status(200).json(jobs); 
     } catch (error: any) {
         res.status(500).json({ message: `Error while creating ptoject: ${error.message}` });
     }
@@ -65,17 +65,17 @@ export const getJobsById = async (
     const { id } = req.params;
 
     try {
-        const jobs = await prisma.job.findUnique({
+        const job = await prisma.job.findUnique({
             where: {
                 id: Number(id)
             },
         });
 
-        if (!jobs) {
+        if (!job) {
             res.status(404).json({ message: "Job not found" });
         }
 
-        res.json(jobs);
+        res.status(200).json(job);
     } catch (error: any) {
         res.status(500).json({ message: `Error while fetching jobs: ${error.message}` });
     }

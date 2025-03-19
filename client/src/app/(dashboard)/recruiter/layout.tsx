@@ -12,7 +12,7 @@ const recruiterMenuItems = [
     { icon: "Users", label: 'Candidates', href: "/recruiter/candidates" },
     { icon: "FileText", label: 'Job Offers', href: "/recruiter/jobOffer" },
     { icon: "Calendar", label: 'Interviews', href: "/recruiter/interview" },
-    { icon: "Mail", label: 'Messages', href: "/recruiter/messages" },
+    { icon: "CheckSquare", label: 'Task', href: "/recruiter/task" },
     { icon: "Settings", label: 'Settings', href: "/recruiter/settings" },
 ];
 

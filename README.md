@@ -1,20 +1,13 @@
-# TalentTrack 
-Full Stack Web Application
+# TalentTrack Full Stack Web Application
 
-## Project Overview  
-TalentTrack is a full-stack job portal that enables recruiters to post jobs, schedule interviews, receive applications, and efficiently manage applicant details.  
-
-The project is built using:  
-- **Client:** Next.js  
-- **Server:** Node.js + Express.js  
-- **Database ORM:** Prisma  
-
+## Project Overview
+TalentTrack is a full-stack job portal that enables recruiters to post jobs, schedule interviews, receive applications, and efficiently manage applicant details.
 
 ## Tech Stack
-- Frontend: React.js, Tailwind CSS
-- Backend: Node.js, Express.js, Prisma ORM, WebSocket (for real-time)
-- Database: PostgreSQL
-- Deployment: Railway (Backend), Vercel (Frontend)
+- **Client:** Next.js, React.js, Tailwind CSS, Zustand
+- **Server:** Node.js, Express.js, Prisma ORM, WebSocket
+- **Database:** PostgreSQL
+- **Deployment:** Railway (Backend), Vercel (Frontend)
 
 ## Features
 - ✅ Job Postings
@@ -23,53 +16,75 @@ The project is built using:
 - ✅ Real-time Notifications using WebSocket
 - ✅ Interview Scheduling
 - ✅ User Authentication (JWT)
+- ✅ Image hosting in Cloudinary
+- ✅ Resume Key-Details extraction through Gemini
+- ✅ Resume Upload and Storage
 
+## Environment Variables
+### Client .env
+```plaintext
+NEXT_PUBLIC_API_URL=http://localhost:4000
+```
 
+### Server .env
+```plaintext
+DATABASE_URL=postgresql://username:password@localhost:5432/dbname
+PORT=4000
+JWT_SECRET=<your-secret>
+EMAIL_USER=<your_email>
+EMAIL_PASS=<password>
+CLOUDINARY_CLOUD_NAME=<name>
+CLOUDINARY_API_KEY=<key>
+CLOUDINARY_API_SECRET=<secret>
+RESUME_STORAGE_PATH=uploads/resumes
+```
 
 ## Installation Steps
-1. Clone the repository:
-
+```bash
+# Clone repository
 git clone https://github.com/username/talenttrack.git
 cd talenttrack
 
-2. Install dependencies for the client:
+# Install client dependencies
 cd client
 npm install
 
-3. Install dependencies for the server:
-cd server
+# Install server dependencies
+cd ../server
 npm install
 
-4. Set up the database:
+# Set up database
 npx prisma migrate dev
 
+# Create resume storage directory
+mkdir -p uploads/resumes
+```
 
 ## Running the Application
+```bash
+# Development mode (combined)
 npm run start:dev
 
-Alternatively, run them separately:
-
-1. Start the server:
-cd server 
+# Or run separately:
+# Server
+cd server
 npm run dev
 
-2. Start the client:
+# Client
 cd client
 npm run dev
+```
+Access at http://localhost:3000
 
-Access the app at http://localhost:3000.
-
-
-Production Mode
-
-1.Build for this client:
+## Production Mode
+```bash
+# Build and start client
 cd client
 npm run build
 npm run start
 
-1.Build for this server:
+# Build and start server
+cd server
 npm run build
 npm run start
-
-
-
+```

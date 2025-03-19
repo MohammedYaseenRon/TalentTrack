@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react'
-import { ChevronLeft, ChevronRight, Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar,Briefcase, FileText, Mail, LucideIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar,Briefcase, FileText, Mail, LucideIcon, CheckSquare } from 'lucide-react'
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils'
@@ -23,7 +23,7 @@ interface SidebarProps {
 }
 
 const iconMap: { [key: string]: LucideIcon } = {
-    Home, Folder, BarChart, Users, Settings, LayoutDashboard, Calendar, FileText, Mail,Briefcase
+    Home, Folder, BarChart, Users, Settings,CheckSquare, LayoutDashboard, Calendar, FileText, Mail,Briefcase
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({ className, menuItems}) => {

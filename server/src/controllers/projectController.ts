@@ -24,7 +24,7 @@ export const createProject = async (
     req: any,
     res: Response
 ): Promise<void> => {
-    const { name, description, techStack, livedemo, sourcecode, tags, images } = req.body;
+    const { name, description, techStack, livedemo, sourcecode, tags } = req.body;
 
     const { id: userId } = req.user;
     const normalizedTags = typeof tags === "string"
